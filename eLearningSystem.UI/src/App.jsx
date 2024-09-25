@@ -1,14 +1,27 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import "./App.css";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Home />,
+  },
+
+  {
+    path: "/login",
+    element: <Login />,
+  },
+  {
+    path: "/register",
+    element: <Register />,
+  },
+]);
 
 function App() {
-  const [count, setCount] = useState(0);
-
-  return (
-    <h1 className="text-3xl font-bold underline">Hello E-Learning System!</h1>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;
