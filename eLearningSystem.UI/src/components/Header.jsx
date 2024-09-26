@@ -69,7 +69,7 @@ export default function Header() {
   const nav = useNavigate();
 
   return (
-    <header className="bg-white">
+    <header className="bg-gray-900">
       <nav
         aria-label="Global"
         className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8"
@@ -88,7 +88,7 @@ export default function Header() {
           <button
             type="button"
             onClick={() => setMobileMenuOpen(true)}
-            className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
+            className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-400"
           >
             <span className="sr-only">Open main menu</span>
             <Bars3Icon aria-hidden="true" className="h-6 w-6" />
@@ -96,11 +96,11 @@ export default function Header() {
         </div>
         <PopoverGroup className="hidden lg:flex lg:gap-x-12">
           <Popover className="relative">
-            <PopoverButton className="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900">
+            <PopoverButton className="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-400 hover:text-gray-200">
               Product
               <ChevronDownIcon
                 aria-hidden="true"
-                className="h-5 w-5 flex-none text-gray-400"
+                className="h-5 w-5 flex-none text-gray-300"
               />
             </PopoverButton>
 
@@ -151,13 +151,22 @@ export default function Header() {
             </PopoverPanel>
           </Popover>
 
-          <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
+          <a
+            href="#"
+            className="text-sm font-semibold leading-6 text-gray-400 hover:text-gray-200"
+          >
             Features
           </a>
-          <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
+          <a
+            href="#"
+            className="text-sm font-semibold leading-6 text-gray-400 hover:text-gray-200"
+          >
             Marketplace
           </a>
-          <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
+          <a
+            href="#"
+            className="text-sm font-semibold leading-6 text-gray-400 hover:text-gray-200"
+          >
             Company
           </a>
         </PopoverGroup>
@@ -166,7 +175,7 @@ export default function Header() {
             onClick={() => {
               nav("/login");
             }}
-            className="text-sm font-semibold leading-6 text-gray-900 cursor-pointer"
+            className="text-sm font-semibold leading-6 text-gray-400 cursor-pointer hover:text-gray-200"
           >
             Log in <span aria-hidden="true">&rarr;</span>
           </a>
