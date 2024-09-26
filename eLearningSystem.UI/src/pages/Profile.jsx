@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { UserCircleIcon } from "@heroicons/react/20/solid";
+import ChangePassword from "./ChangePassword";
 
 export default function Profile() {
   const [email, setEmail] = useState("");
@@ -9,6 +10,8 @@ export default function Profile() {
   const [fullname, setFullname] = useState("");
   const [gender, setGender] = useState("");
   const [dob, setDob] = useState("");
+
+  const [open, setOpen] = useState(false);
 
   return (
     <div>
@@ -27,8 +30,10 @@ export default function Profile() {
               >
                 Change
               </button>
+
               <div className="mt-5">
                 <button
+                  onClick={() => setOpen(true)}
                   type="button"
                   className="rounded-md bg-rose-600 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-rose-500"
                 >
@@ -155,6 +160,7 @@ export default function Profile() {
           </div>
         </form>
       </div>
+      <ChangePassword open={open} setOpen={setOpen}></ChangePassword>
       <Footer></Footer>
     </div>
   );
