@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { UserCircleIcon } from "@heroicons/react/20/solid";
+
 import ChangePassword from "./ChangePassword";
 
 export default function Profile() {
@@ -160,7 +161,9 @@ export default function Profile() {
           </div>
         </form>
       </div>
+
       <ChangePassword open={open} setOpen={setOpen}></ChangePassword>
+
       <Footer></Footer>
     </div>
   );
