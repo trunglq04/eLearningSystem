@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { UserCircleIcon } from "@heroicons/react/20/solid";
+import ChangePassword from "./ChangePassword";
 
 import ChangePassword from "./ChangePassword";
 
