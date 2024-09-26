@@ -1,0 +1,12 @@
+D:\FPTU\OJT\eLearningSystem\Service.Contracts\bin\Debug\net8.0\Service.Contracts.deps.json
+D:\FPTU\OJT\eLearningSystem\Service.Contracts\bin\Debug\net8.0\Service.Contracts.dll
+D:\FPTU\OJT\eLearningSystem\Service.Contracts\bin\Debug\net8.0\Service.Contracts.pdb
+D:\FPTU\OJT\eLearningSystem\Service.Contracts\obj\Debug\net8.0\Service.Contracts.GeneratedMSBuildEditorConfig.editorconfig
+D:\FPTU\OJT\eLearningSystem\Service.Contracts\obj\Debug\net8.0\Service.Contracts.AssemblyInfoInputs.cache
+D:\FPTU\OJT\eLearningSystem\Service.Contracts\obj\Debug\net8.0\Service.Contracts.AssemblyInfo.cs
+D:\FPTU\OJT\eLearningSystem\Service.Contracts\obj\Debug\net8.0\Service.Contracts.csproj.CoreCompileInputs.cache
+D:\FPTU\OJT\eLearningSystem\Service.Contracts\obj\Debug\net8.0\Service.Contracts.sourcelink.json
+D:\FPTU\OJT\eLearningSystem\Service.Contracts\obj\Debug\net8.0\Service.Contracts.dll
+D:\FPTU\OJT\eLearningSystem\Service.Contracts\obj\Debug\net8.0\refint\Service.Contracts.dll
+D:\FPTU\OJT\eLearningSystem\Service.Contracts\obj\Debug\net8.0\Service.Contracts.pdb
+D:\FPTU\OJT\eLearningSystem\Service.Contracts\obj\Debug\net8.0\ref\Service.Contracts.dll

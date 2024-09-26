@@ -1,0 +1,13 @@
+D:\FPTU\OJT\eLearningSystem\LoggerService\bin\Debug\net8.0\LoggerService.deps.json
+D:\FPTU\OJT\eLearningSystem\LoggerService\bin\Debug\net8.0\LoggerService.dll
+D:\FPTU\OJT\eLearningSystem\LoggerService\bin\Debug\net8.0\LoggerService.pdb
+D:\FPTU\OJT\eLearningSystem\LoggerService\obj\Debug\net8.0\LoggerService.GeneratedMSBuildEditorConfig.editorconfig
+D:\FPTU\OJT\eLearningSystem\LoggerService\obj\Debug\net8.0\LoggerService.AssemblyInfoInputs.cache
+D:\FPTU\OJT\eLearningSystem\LoggerService\obj\Debug\net8.0\LoggerService.AssemblyInfo.cs
+D:\FPTU\OJT\eLearningSystem\LoggerService\obj\Debug\net8.0\LoggerService.csproj.CoreCompileInputs.cache
+D:\FPTU\OJT\eLearningSystem\LoggerService\obj\Debug\net8.0\LoggerService.sourcelink.json
+D:\FPTU\OJT\eLearningSystem\LoggerService\obj\Debug\net8.0\LoggerService.dll
+D:\FPTU\OJT\eLearningSystem\LoggerService\obj\Debug\net8.0\refint\LoggerService.dll
+D:\FPTU\OJT\eLearningSystem\LoggerService\obj\Debug\net8.0\LoggerService.pdb
+D:\FPTU\OJT\eLearningSystem\LoggerService\obj\Debug\net8.0\ref\LoggerService.dll
+D:\FPTU\OJT\eLearningSystem\LoggerService\obj\Debug\net8.0\LoggerService.csproj.AssemblyReference.cache

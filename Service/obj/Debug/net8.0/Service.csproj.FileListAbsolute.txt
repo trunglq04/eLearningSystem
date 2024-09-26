@@ -1,0 +1,12 @@
+D:\FPTU\OJT\eLearningSystem\Service\bin\Debug\net8.0\Service.deps.json
+D:\FPTU\OJT\eLearningSystem\Service\bin\Debug\net8.0\Service.dll
+D:\FPTU\OJT\eLearningSystem\Service\bin\Debug\net8.0\Service.pdb
+D:\FPTU\OJT\eLearningSystem\Service\obj\Debug\net8.0\Service.GeneratedMSBuildEditorConfig.editorconfig
+D:\FPTU\OJT\eLearningSystem\Service\obj\Debug\net8.0\Service.AssemblyInfoInputs.cache
+D:\FPTU\OJT\eLearningSystem\Service\obj\Debug\net8.0\Service.AssemblyInfo.cs
+D:\FPTU\OJT\eLearningSystem\Service\obj\Debug\net8.0\Service.csproj.CoreCompileInputs.cache
+D:\FPTU\OJT\eLearningSystem\Service\obj\Debug\net8.0\Service.sourcelink.json
+D:\FPTU\OJT\eLearningSystem\Service\obj\Debug\net8.0\Service.dll
+D:\FPTU\OJT\eLearningSystem\Service\obj\Debug\net8.0\refint\Service.dll
+D:\FPTU\OJT\eLearningSystem\Service\obj\Debug\net8.0\Service.pdb
+D:\FPTU\OJT\eLearningSystem\Service\obj\Debug\net8.0\ref\Service.dll
