@@ -6,7 +6,7 @@ using Repository.Configuration;
 
 namespace Repository
 {
-    public class RepositoryContext : IdentityDbContext<User, ApplicationRole, Guid>
+    public class RepositoryContext : IdentityDbContext<ApplicationUser, ApplicationRole, Guid>
     {
         public RepositoryContext() { }
         public RepositoryContext(DbContextOptions<RepositoryContext> options) : base(options) { }
