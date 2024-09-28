@@ -18,3 +18,5 @@ eLearningSystem.API/.vs/
 /Repository.Contracts/obj/Debug/net8.0/Repository.Contracts.csproj.AssemblyReference.cache
 /Service/obj/Debug/net8.0/Service.AssemblyInfo.cs
 /Service/obj/Debug/net8.0/Service.csproj.AssemblyReference.cache
+/eLearningSystem.Presentation/obj/Debug/net8.0/eLearningSystem.Presentation.csproj.AssemblyReference.cache
+/Repository/obj/Debug/net8.0/Repository.csproj.AssemblyReference.cache
