@@ -20,3 +20,15 @@ eLearningSystem.API/.vs/
 /Service/obj/Debug/net8.0/Service.csproj.AssemblyReference.cache
 /eLearningSystem.Presentation/obj/Debug/net8.0/eLearningSystem.Presentation.csproj.AssemblyReference.cache
 /Repository/obj/Debug/net8.0/Repository.csproj.AssemblyReference.cache
+/Shared/obj/Debug/net8.0/Shared.AssemblyInfoInputs.cache
+/Shared/obj/Debug/net8.0/Shared.AssemblyInfo.cs
+/Service.Contracts/obj/Debug/net8.0/Service.Contracts.AssemblyInfoInputs.cache
+/Service.Contracts/obj/Debug/net8.0/Service.Contracts.AssemblyInfo.cs
+/Service/obj/Debug/net8.0/Service.AssemblyInfoInputs.cache
+/Service/obj/Debug/net8.0/Service.AssemblyInfo.cs
+/Repository.Contracts/obj/Debug/net8.0/Repository.Contracts.AssemblyInfo.cs
+/Repository.Contracts/obj/Debug/net8.0/Repository.Contracts.AssemblyInfoInputs.cache
+/Repository/obj/Debug/net8.0/Repository.AssemblyInfoInputs.cache
+/eLearningSystem.Presentation/obj/Debug/net8.0/eLearningSystem.Presentation.AssemblyInfoInputs.cache
+/Repository/obj/Debug/net8.0/Repository.AssemblyInfo.cs
+/eLearningSystem.Presentation/obj/Debug/net8.0/eLearningSystem.Presentation.AssemblyInfo.cs
