@@ -14,3 +14,11 @@ D:\FPTU\OJT\eLearningSystem\eLearningSystem.Presentation\obj\Debug\net8.0\eLearn
 D:\FPTU\OJT\eLearningSystem\eLearningSystem.Presentation\bin\Debug\net8.0\Shared.dll
 D:\FPTU\OJT\eLearningSystem\eLearningSystem.Presentation\bin\Debug\net8.0\Shared.pdb
 D:\FPTU\OJT\eLearningSystem\eLearningSystem.Presentation\obj\Debug\net8.0\eLearnin.C2408A67.Up2Date
+D:\FPTU\OJT\eLearningSystem\eLearningSystem.Presentation\bin\Debug\net8.0\Entities.dll
+D:\FPTU\OJT\eLearningSystem\eLearningSystem.Presentation\bin\Debug\net8.0\Repository.Contracts.dll
+D:\FPTU\OJT\eLearningSystem\eLearningSystem.Presentation\bin\Debug\net8.0\Repository.dll
+D:\FPTU\OJT\eLearningSystem\eLearningSystem.Presentation\bin\Debug\net8.0\Service.Contracts.dll
+D:\FPTU\OJT\eLearningSystem\eLearningSystem.Presentation\bin\Debug\net8.0\Service.Contracts.pdb
+D:\FPTU\OJT\eLearningSystem\eLearningSystem.Presentation\bin\Debug\net8.0\Entities.pdb
+D:\FPTU\OJT\eLearningSystem\eLearningSystem.Presentation\bin\Debug\net8.0\Repository.pdb
+D:\FPTU\OJT\eLearningSystem\eLearningSystem.Presentation\bin\Debug\net8.0\Repository.Contracts.pdb

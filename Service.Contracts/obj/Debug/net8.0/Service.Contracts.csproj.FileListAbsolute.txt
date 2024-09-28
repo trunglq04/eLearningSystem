@@ -10,3 +10,13 @@ D:\FPTU\OJT\eLearningSystem\Service.Contracts\obj\Debug\net8.0\Service.Contracts
 D:\FPTU\OJT\eLearningSystem\Service.Contracts\obj\Debug\net8.0\refint\Service.Contracts.dll
 D:\FPTU\OJT\eLearningSystem\Service.Contracts\obj\Debug\net8.0\Service.Contracts.pdb
 D:\FPTU\OJT\eLearningSystem\Service.Contracts\obj\Debug\net8.0\ref\Service.Contracts.dll
+D:\FPTU\OJT\eLearningSystem\Service.Contracts\obj\Debug\net8.0\Service.Contracts.csproj.AssemblyReference.cache
+D:\FPTU\OJT\eLearningSystem\Service.Contracts\bin\Debug\net8.0\Entities.dll
+D:\FPTU\OJT\eLearningSystem\Service.Contracts\bin\Debug\net8.0\Repository.Contracts.dll
+D:\FPTU\OJT\eLearningSystem\Service.Contracts\bin\Debug\net8.0\Repository.dll
+D:\FPTU\OJT\eLearningSystem\Service.Contracts\bin\Debug\net8.0\Shared.dll
+D:\FPTU\OJT\eLearningSystem\Service.Contracts\bin\Debug\net8.0\Repository.pdb
+D:\FPTU\OJT\eLearningSystem\Service.Contracts\bin\Debug\net8.0\Shared.pdb
+D:\FPTU\OJT\eLearningSystem\Service.Contracts\bin\Debug\net8.0\Entities.pdb
+D:\FPTU\OJT\eLearningSystem\Service.Contracts\bin\Debug\net8.0\Repository.Contracts.pdb
+D:\FPTU\OJT\eLearningSystem\Service.Contracts\obj\Debug\net8.0\Service..DEC3DE55.Up2Date
