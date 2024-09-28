@@ -1,8 +1,5 @@
-eLearningSystem.API/appsettings.Development.json
-eLearningSystem.API/appsettings.json
+eLearningSystem.API/*.Development.json
+eLearningSystem.API/*.json
 */.vs
-*/obj
-*/bin/Debug/net8.0/*
-*/obj/Debug/net8.0/*
-*\bin\*
-*\obj\*
+**/bin/*
+**/obj/*
