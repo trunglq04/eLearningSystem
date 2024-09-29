@@ -47,7 +47,8 @@ namespace eLearningSystem.API.Extensions
                 o.User.RequireUniqueEmail = true;
             })
             .AddEntityFrameworkStores<RepositoryContext>()
-            .AddDefaultTokenProviders();
+            .AddDefaultTokenProviders()
+            .AddSignInManager();
         }
 
         public static void ConfigureJWT(this IServiceCollection services, IConfiguration configuration)
