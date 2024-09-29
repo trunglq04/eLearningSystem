@@ -1,15 +1,5 @@
-<<<<<<< HEAD
 eLearningSystem.API/*.Development.json
 eLearningSystem.API/*.json
 */.vs
 **/bin/*
 **/obj/*
-=======
-eLearningSystem.API/appsettings.Development.json
-eLearningSystem.API/appsettings.json
-eLearningSystem.API/obj/*
-**/bin/*
-**/.vs/
-**/obj/Debug/**
-
->>>>>>> 7f39309 (update(project): delete ignore files)
