@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 export default function InputEmail() {
   const nav = useNavigate();
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [error, setError] = useState({});
   const emailRegex = /^[\w.-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/;
   const handleSubmit = (e) => {
@@ -18,15 +17,6 @@ export default function InputEmail() {
       newErrors.email = "Please provide a valid email address.";
     } else {
       delete newErrors.email; // Remove the error if the validation passes
-    }
-
-    // Password validation
-    if (password === "") {
-      newErrors.password = "Password is required";
-    } else if (password.length < 6) {
-      newErrors.password = "Password must be at least 6 characters";
-    } else {
-      delete newErrors.password; // Remove the error if the validation passes
     }
 
     setError(newErrors); // Update the error state with the new object
@@ -76,7 +66,7 @@ export default function InputEmail() {
               type="submit"
               className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
-              Reset Password
+              Verify
             </button>
           </div>
         </form>
