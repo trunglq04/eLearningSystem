@@ -3,3 +3,5 @@ eLearningSystem.API/*.json
 */.vs
 **/bin/*
 **/obj/*
+*/**/obj/*
+*/**/bin/*
