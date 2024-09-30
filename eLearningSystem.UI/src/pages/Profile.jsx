@@ -4,8 +4,6 @@ import Footer from "../components/Footer";
 import { UserCircleIcon } from "@heroicons/react/20/solid";
 import ChangePassword from "./ChangePassword";
 
-import ChangePassword from "./ChangePassword";
-
 export default function Profile() {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
