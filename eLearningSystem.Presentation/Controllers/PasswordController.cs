@@ -17,7 +17,6 @@ namespace eLearningSystem.Presentation.Controllers
         }
 
         [HttpPost("forgot-password")]
-        [Authorize]
         public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordRequestDto request)
         {
             if (request.Email is null) 
@@ -32,7 +31,6 @@ namespace eLearningSystem.Presentation.Controllers
         }
 
         [HttpPost("reset-password")]
-        [Authorize]
         public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordByLinkRequestDto request)
         {
             if (await _service.PasswordService.ValidatePasswordResetTokenAsync(request.Email, request.ResetToken))

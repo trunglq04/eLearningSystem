@@ -30,7 +30,7 @@ namespace eLearningSystem.Presentation.Controllers
         public async Task<IActionResult> Authenticate([FromBody] LoginRequestDto user)
         {
             if (!await _service.AuthenticationService.ValidateUser(user))
-                return Unauthorized();
+                return Unauthorized(new ResponseDto(["Login failed! Wrong email or password."]));
 
             var tokenDto = await _service.AuthenticationService.CreateToken(populateExp: true);
             return Ok(new ResponseDto(["Login successfully!"], tokenDto));

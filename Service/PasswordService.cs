@@ -46,15 +46,8 @@ namespace Service
 
         public async Task ResetPasswordByLinkAsync(ResetPasswordByLinkRequestDto request)
         {
-            if (await ValidatePasswordResetTokenAsync(request.Email, request.ResetToken))
-            {
-                var result = await _userManager.ResetPasswordAsync(_user!, request.ResetToken, request.NewPassword);
-                if (!result.Succeeded) throw new InvalidOperationException("Password reset failed.");
-            } 
-            else
-            {
-                throw new InvalidOperationException("Invalid password reset token.");
-            }
+            var result = await _userManager.ResetPasswordAsync(_user!, request.ResetToken, request.NewPassword);
+            if (!result.Succeeded) throw new InvalidOperationException("Password reset failed.");
         }
     }
 }
