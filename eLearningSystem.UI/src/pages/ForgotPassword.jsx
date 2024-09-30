@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import banner from "../assets/banner.jpg";
 import InputEmail from "../components/InputEmail";
 
