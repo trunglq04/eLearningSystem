@@ -28,7 +28,7 @@ namespace eLearningSystem.Presentation.Controllers
             {
                 return Ok(new ResponseDto(["User registered successfully!"]));
             } 
-            else return BadRequest(new ResponseDto(["Registration failed. Please try again."]));
+            else return BadRequest(new ResponseDto(["RegAistration failed. Please try again."]));
 
         }
 
@@ -38,7 +38,7 @@ namespace eLearningSystem.Presentation.Controllers
                 return Unauthorized();
 
             var tokenDto = await _service.AuthenticationService.CreateToken(populateExp: true);
-            return Ok(tokenDto);
+            return Ok(new ResponseDto(["Login successfully!"], tokenDto));
         }
     }
 }

@@ -13,7 +13,7 @@ namespace Shared.DataTransferObjects
         public List<string> Message { get; set; }
 
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public Object? Data { get; set; }
+        public Object? Data { get; }
 
 
         public ResponseDto(List<string> message, Object? data = default)
