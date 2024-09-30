@@ -114,8 +114,8 @@ export default function Login() {
                   </div>
                   <div className="text-sm text-right mt-2">
                     <a
-                      href="#"
-                      className="font-semibold text-indigo-600 hover:text-indigo-500 "
+                      onClick={() => nav("/forgot-password")}
+                      className="font-semibold text-indigo-600 hover:text-indigo-500 cursor-pointer"
                     >
                       Forgot password?
                     </a>
