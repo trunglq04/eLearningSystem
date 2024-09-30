@@ -1,6 +1,8 @@
-﻿using Entities.Models;
+﻿using Entities;
+using Entities.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Repository;
@@ -75,5 +77,10 @@ namespace eLearningSystem.API.Extensions
                 };
             });
         }
+
+        //public static void ConfigureApplicationServices(IServiceCollection services, IConfiguration configuration)
+        //{
+        //    services.AddSingleton<IEmailService, SmtpEmailService>();
+        //}
     }
 }

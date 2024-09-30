@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared.DataTransferObjects;
 
@@ -10,19 +9,11 @@ namespace eLearningSystem.Presentation.Controllers
     public class AuthenticationController : ControllerBase
     {
         private readonly IServiceManager _service;
-        private readonly IEmailSender _emailSender;
 
-        public AuthenticationController(IServiceManager service, IEmailSender emailSender)
+        public AuthenticationController(IServiceManager service)
         {
             _service = service;
-            _emailSender = emailSender;
         }
-
-        //[HttpPost("register")]
-        //public async Task<IActionResult> Register([FromBody] RegisterUserDto registerUserDto)
-        //{
-        //    return Ok();
-        //}
 
         [HttpPost("login")]
         public async Task<IActionResult> Authenticate([FromBody] LoginRequestDto user)
@@ -33,5 +24,6 @@ namespace eLearningSystem.Presentation.Controllers
             var tokenDto = await _service.AuthenticationService.CreateToken(populateExp: true);
             return Ok(tokenDto);
         }
+
     }
 }

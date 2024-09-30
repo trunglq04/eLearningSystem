@@ -10,14 +10,21 @@ namespace Service
     public sealed class ServiceManager : IServiceManager
     {
         private readonly Lazy<IAuthenticationService> _authenticationService;
-
+        private readonly Lazy<IEmailService> _emailService;
+        private readonly Lazy<IPasswordService> _passwordService;
 
         public ServiceManager(IRepositoryManager repositoryManager, IMapper mapper, UserManager<ApplicationUser> userManager, IConfiguration configuration)
         {
             _authenticationService = new Lazy<IAuthenticationService>(() => 
                 new AuthenticationService(mapper, userManager, configuration));
+            _emailService = new Lazy<IEmailService>(() => 
+                new SmtpEmailService(configuration));
+            _passwordService = new Lazy<IPasswordService>(() =>
+                new PasswordService(userManager, EmailService));
         }
-        public IAuthenticationService AuthenticationService => _authenticationService.Value;
 
+        public IAuthenticationService AuthenticationService => _authenticationService.Value;
+        public IEmailService EmailService => _emailService.Value;
+        public IPasswordService PasswordService => _passwordService.Value;
     }
 }
