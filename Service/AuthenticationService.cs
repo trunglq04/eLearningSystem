@@ -34,6 +34,13 @@ namespace Service
             return result;
         }
 
+        public async Task<bool> IsUserEmailExist(ForgotPasswordRequestDto request)
+        {
+            _user = await _userManager.FindByEmailAsync(request.Email);
+            var result = _user is not null;
+            return result;
+        }
+
         public async Task<TokenDto?> CreateToken(bool populateExp)
         {
             var accessToken = CreateJwtToken();
@@ -54,6 +61,8 @@ namespace Service
                 RefreshToken = refreshToken
             };
         }
+
+
 
         private string CreateJwtToken()
         {

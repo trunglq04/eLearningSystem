@@ -25,7 +25,6 @@ builder.Services.ConfigureSqlContext(builder.Configuration);
 var app = builder.Build();
 
 
-
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
