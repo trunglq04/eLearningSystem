@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Entities.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
@@ -11,19 +12,25 @@ namespace eLearningSystem.Presentation.Controllers
     public class AuthenticationController : ControllerBase
     {
         private readonly IServiceManager _service;
-        private readonly IEmailSender _emailSender;
+        //private readonly IEmailSender _emailSender;
 
-        public AuthenticationController(IServiceManager service, IEmailSender emailSender)
+        public AuthenticationController(IServiceManager service)
         {
             _service = service;
-            _emailSender = emailSender;
+            //_emailSender = emailSender;
         }
 
-        //[HttpPost("register")]
-        //public async Task<IActionResult> Register([FromBody] RegisterUserDto registerUserDto)
-        //{
-        //    return Ok();
-        //}
+        [HttpPost("register")]
+        public async Task<IActionResult> Register([FromBody] RegisterRequestDto registerUserDto)
+        {
+            bool result = await _service.AuthenticationService.CreateUser(registerUserDto, "Learner");
+            if (result) 
+            {
+                return Ok(new ResponseDto(["User registered successfully!"]));
+            } 
+            else return BadRequest(new ResponseDto(["Registration failed. Please try again."]));
+
+        }
 
         public async Task<IActionResult> Authenticate([FromBody] LoginRequestDto user)
         {

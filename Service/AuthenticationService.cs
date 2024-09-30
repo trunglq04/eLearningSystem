@@ -102,6 +102,24 @@ namespace Service
             }
         }
 
+        public async Task<bool> CreateUser(RegisterRequestDto registerUserDto, string role)
+        {
+            var user = new ApplicationUser
+            {
+                UserName = registerUserDto.UserName?.Trim(),
+                Email = registerUserDto.UserName?.Trim()
+            };
+            var identityResult = await _userManager.CreateAsync(user, registerUserDto.Password);
+
+            if (!identityResult.Succeeded) return false;
+
+            identityResult = await _userManager.AddToRoleAsync(user,  role);
+
+            if (!identityResult.Succeeded)
+                return false;
+
+            return true;
+        }
         
     }
 }

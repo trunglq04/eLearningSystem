@@ -2,7 +2,7 @@
 
 namespace Repository
 {
-    internal sealed class RepositoryManager : IRepositoryManager
+    public sealed class RepositoryManager : IRepositoryManager
     {
         private readonly RepositoryContext _repositoryContext;
 
