@@ -1,7 +1,5 @@
-eLearningSystem.API/appsettings.Development.json
-eLearningSystem.API/appsettings.json
-eLearningSystem.API/obj/*
+eLearningSystem.API/*.Development.json
+eLearningSystem.API/*.json
+*/.vs
 **/bin/*
-**/.vs/
-**/obj/Debug/**
-
+**/obj/*
