@@ -4,12 +4,22 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
+builder.Services.ConfigureCors();
+builder.Services.ConfigureIISIntegration();
+
+builder.Services.AddControllers()
+    .AddApplicationPart(typeof(eLearningSystem.Presentation.AssemblyReference).Assembly);
+
+builder.Services.ConfigureSqlContext(builder.Configuration);
+builder.Services.ConfigureRepositoryManager();
+builder.Services.ConfigureServiceManager();
+
+builder.Services.AddAutoMapper(typeof(Program));
 
 builder.Services.AddAuthentication();
 builder.Services.ConfigureIdentity();
 builder.Services.ConfigureJWT(builder.Configuration);
+
 
 var app = builder.Build();
 

@@ -31,9 +31,6 @@
             "projectReferences": {
               "D:\\FPTU\\OJT\\eLearningSystem\\Service.Contracts\\Service.Contracts.csproj": {
                 "projectPath": "D:\\FPTU\\OJT\\eLearningSystem\\Service.Contracts\\Service.Contracts.csproj"
-              },
-              "D:\\FPTU\\OJT\\eLearningSystem\\Shared\\Shared.csproj": {
-                "projectPath": "D:\\FPTU\\OJT\\eLearningSystem\\Shared\\Shared.csproj"
               }
             }
           }
@@ -56,10 +53,6 @@
             "Mailjet.Api": {
               "target": "Package",
               "version": "[3.0.0, )"
-            },
-            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
-              "target": "Package",
-              "version": "[8.0.8, )"
             }
           },
           "imports": [
