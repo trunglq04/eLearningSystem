@@ -24,6 +24,7 @@ namespace eLearningSystem.Presentation.Controllers
         //    return Ok();
         //}
 
+        [HttpPost("login")]
         public async Task<IActionResult> Authenticate([FromBody] LoginRequestDto user)
         {
             if (!await _service.AuthenticationService.ValidateUser(user))
