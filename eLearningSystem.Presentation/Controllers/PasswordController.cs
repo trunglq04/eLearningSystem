@@ -21,14 +21,14 @@ namespace eLearningSystem.Presentation.Controllers
         public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordRequestDto request)
         {
             if (request.Email is null) 
-                return BadRequest("Email is required.");
+                return BadRequest(new ResponseDto(["Email is required."]));
 
             if (!await _service.AuthenticationService.IsUserEmailExist(request))
-                return NotFound("No account found for the provided email address.");
+                return NotFound(new ResponseDto(["No account found for the provided email address."]));
 
             await _service.PasswordService.GeneratePasswordResetTokenAsync(request.Email);
 
-            return Ok("Password reset email sent, please check it!");
+            return Ok(new ResponseDto(["Password reset email sent, please check it!"]));
         }
 
         [HttpPost("reset-password")]
@@ -38,11 +38,11 @@ namespace eLearningSystem.Presentation.Controllers
             if (await _service.PasswordService.ValidatePasswordResetTokenAsync(request.Email, request.ResetToken))
             {
                 await _service.PasswordService.ResetPasswordByLinkAsync(request);
-                return Ok("Password reset successful. Now, you can continue login.");
+                return Ok(new ResponseDto(["Password reset successful. Now, you can continue login."]));
             }
             else
             {
-                return BadRequest("Invalid password reset token.");
+                return BadRequest(new ResponseDto(["Invalid password reset token."]));
             }
         }
     }
