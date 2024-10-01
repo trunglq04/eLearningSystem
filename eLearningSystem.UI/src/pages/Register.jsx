@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import banner from "../assets/banner.jpg";
+import { motion as m } from "framer-motion";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -42,7 +43,12 @@ export default function Register() {
   };
 
   return (
-    <div className="min-h-screen grid grid-cols-1 lg:grid-cols-2">
+    <m.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5, ease: "easeOut" }}
+      className="min-h-screen grid grid-cols-1 lg:grid-cols-2"
+    >
       <div className="flex flex-col justify-center lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <img
@@ -150,6 +156,6 @@ export default function Register() {
           className="w-full h-full object-cover hidden lg:block rounded-3xl"
         />
       </div>
-    </div>
+    </m.div>
   );
 }

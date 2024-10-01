@@ -6,6 +6,15 @@ import Register from "./pages/Register";
 import Profile from "./pages/Profile";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
+import ProtectedRoute from "./utils/ProtectedRoute ";
+
+const getAccessToken = () => {
+  return localStorage.getItem("accessToken");
+};
+
+const isAuthenticated = () => {
+  return !!getAccessToken();
+};
 
 const router = createBrowserRouter([
   {
@@ -22,16 +31,21 @@ const router = createBrowserRouter([
     element: <Register />,
   },
   {
-    path: "/my-profile",
-    element: <Profile />,
-  },
-  {
     path: "/forgot-password",
     element: <ForgotPassword />,
   },
   {
     path: "/reset-password",
     element: <ResetPassword />,
+  },
+  {
+    element: <ProtectedRoute isAuthenticated={isAuthenticated()} />,
+    children: [
+      {
+        path: "/my-profile",
+        element: <Profile />,
+      },
+    ],
   },
 ]);
 
