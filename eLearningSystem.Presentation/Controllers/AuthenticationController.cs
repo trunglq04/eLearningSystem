@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 using Service.Contracts;
 using Shared.DataTransferObjects;
 using System.Security.Claims;
@@ -24,7 +25,8 @@ namespace eLearningSystem.Presentation.Controllers
             IdentityResult result = await _service.AuthenticationService.CreateUser(registerUserDto, "Learner");
             if (result.Succeeded)
             {
-                await _service.AuthenticationService.SendConfirmEmail(registerUserDto.UserName);
+               await _service.AuthenticationService.SendConfirmEmail(registerUserDto.UserName);
+                
                 return Ok(new ResponseDto(["User registered successfully!"]));
             }
             else
@@ -34,13 +36,15 @@ namespace eLearningSystem.Presentation.Controllers
                 return BadRequest(new ResponseDto(error));
             }
         }
-        [HttpGet("confirm-email")]
-        public async Task<IActionResult> ConfirmEmail()
+        [HttpPost("confirm-email")]
+        public async Task<IActionResult> ConfirmEmail([FromBody]  ConfirmEmailRequestDto request)
         {
-            string email = this.HttpContext.Request.Query["email"];
-            string token = this.HttpContext.Request.Query["token"];
 
-            var result = await _service.AuthenticationService.ConfirmEmail(email, token);
+            if (string.IsNullOrEmpty(request.email) || string.IsNullOrEmpty(request.token))
+                return BadRequest(new ResponseDto(["Invalid request."]));
+
+
+            var result = await _service.AuthenticationService.ConfirmEmail(request.email, request.token);
             if (!result.Succeeded)
             {
                 List<string> error = result.Errors.Select(c => c.Description).ToList();
