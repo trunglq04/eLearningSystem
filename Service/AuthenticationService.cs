@@ -94,11 +94,11 @@ namespace Service
         {
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, _user.UserName),
+                new Claim("email", _user.UserName),
             };
 
             var roles = await _userManager.GetRolesAsync(_user);
-            claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
+            claims.AddRange(roles.Select(role => new Claim("role", role)));
 
             return claims;
         }
