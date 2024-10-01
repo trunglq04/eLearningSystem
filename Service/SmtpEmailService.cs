@@ -26,10 +26,13 @@ namespace Service
         }
         public async Task SendConfirmEmailAsync(string userEmail, string token)
         {
-            var resetPasswordUrl = $"{_configuration["JwtSettings:ValidAudience"]}/confirm-email?email={userEmail}&token={token}";
-
-            var body = GenerateConfirmEmailHtmlBody(userEmail, resetPasswordUrl);
-
+            var resetPasswordUrl = $"{_configuration["JwtSettings:ValidAudience"]}/confirm-email";
+            Dictionary<string, string> keyValuePairs = new Dictionary<string, string>();
+            keyValuePairs.Add("email", userEmail);
+            keyValuePairs.Add("token", token);
+            string url = UrlHelper.AddQuerryString(resetPasswordUrl, keyValuePairs);
+            var body = GenerateConfirmEmailHtmlBody(userEmail, url);
+            
             await SendEmailAsync(userEmail, subject: "Xác thực email", body);
         }
         public async Task SendEmailAsync(string toEmail, string subject, string body)
