@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import banner from "../assets/banner.jpg";
+import { registerLearner } from "../utils/ApiFunctions";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -10,6 +11,8 @@ export default function Register() {
     password: "",
     confirmPassword: "",
   });
+
+  const [loading, setLoading] = useState(false);
 
   const handleNavigate = () => {
     navigate("/login");
@@ -20,7 +23,7 @@ export default function Register() {
     setRegisterUser({ ...registerUser, [name]: value });
   };
 
-  const handleSubmitForm = (e) => {
+  const handleSubmitForm = async (e) => {
     e.preventDefault();
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -36,8 +39,15 @@ export default function Register() {
     } else if (registerUser.password !== registerUser.confirmPassword) {
       toast.error("Passwords do not match");
     } else {
-      toast.success("User registered successfully");
-      console.log(registerUser);
+      try {
+        setLoading(true);
+        const response = await registerLearner(registerUser);
+        toast.success(response.message[0]);
+        setLoading(false);
+      } catch (error) {
+        setLoading(false);
+        toast.error(error.response?.data?.message[0]);
+      }
     }
   };
 
@@ -129,6 +139,7 @@ export default function Register() {
                 type="submit"
                 className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 onClick={handleSubmitForm}
+                {...(loading && { disabled: true })}
               >
                 Sign up
               </button>
