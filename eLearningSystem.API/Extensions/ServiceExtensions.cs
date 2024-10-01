@@ -1,8 +1,6 @@
-﻿using Entities;
-using Entities.Models;
+﻿using Entities.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Repository;
@@ -15,12 +13,12 @@ namespace eLearningSystem.API.Extensions
 {
     public static class ServiceExtensions
     {
-        public static void ConfigureCors(this IServiceCollection services) =>
+        public static void ConfigureCors(this IServiceCollection services, IConfiguration configuration) =>
             services.AddCors(options =>
             {
                 options.AddPolicy("CorsPolicy", builder =>
                    builder
-                    .WithOrigins("https://example.com")
+                    .WithOrigins(configuration["JwtSettings:ValidAudience"]!)
                     .AllowAnyMethod()
                     .AllowAnyHeader());
             });
