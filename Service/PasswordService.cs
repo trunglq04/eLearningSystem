@@ -44,10 +44,17 @@ namespace Service
             return isValid;
         }
 
-        public async Task ResetPasswordByLinkAsync(ResetPasswordByLinkRequestDto request)
+        public async Task<IdentityResult> ResetPasswordByLinkAsync(ResetPasswordByLinkRequestDto request)
         {
-            var result = await _userManager.ResetPasswordAsync(_user!, request.ResetToken, request.NewPassword);
-            if (!result.Succeeded) throw new InvalidOperationException("Password reset failed.");
+            return await _userManager.ResetPasswordAsync(_user!, request.ResetToken, request.NewPassword);
+        }
+
+        public async Task<IdentityResult> ResetPassword(string email , ChangePasswordDto request)
+        {
+            var resetToken = await GeneratePasswordResetTokenAsync(email);
+            ApplicationUser user = await _userManager.FindByEmailAsync(email);
+            IdentityResult result = await _userManager.ResetPasswordAsync(user!, resetToken!, request.NewPassword);
+            return result;
         }
     }
 }

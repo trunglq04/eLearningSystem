@@ -16,7 +16,7 @@ namespace Service
         public ServiceManager(IRepositoryManager repositoryManager, IMapper mapper, UserManager<ApplicationUser> userManager, IConfiguration configuration)
         {
             _authenticationService = new Lazy<IAuthenticationService>(() => 
-                new AuthenticationService(mapper, userManager, configuration));
+                new AuthenticationService(mapper, userManager, configuration, EmailService));
             _emailService = new Lazy<IEmailService>(() => 
                 new SmtpEmailService(configuration));
             _passwordService = new Lazy<IPasswordService>(() =>

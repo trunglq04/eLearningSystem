@@ -15,12 +15,12 @@ namespace eLearningSystem.API.Extensions
 {
     public static class ServiceExtensions
     {
-        public static void ConfigureCors(this IServiceCollection services) =>
+        public static void ConfigureCors(this IServiceCollection services, IConfiguration configuration) =>
             services.AddCors(options =>
             {
                 options.AddPolicy("CorsPolicy", builder =>
                    builder
-                    .WithOrigins("https://example.com")
+                    .WithOrigins(configuration["JwtSettings:ValidAudience"]!)
                     .AllowAnyMethod()
                     .AllowAnyHeader());
             });
@@ -43,9 +43,9 @@ namespace eLearningSystem.API.Extensions
             var builder = services.AddIdentity<ApplicationUser, ApplicationRole>(o =>
             {
                 o.Password.RequireDigit = true;
-                o.Password.RequireLowercase = false;
-                o.Password.RequireUppercase = false;
-                o.Password.RequireNonAlphanumeric = false;
+                o.Password.RequireLowercase = true;
+                o.Password.RequireUppercase = true;
+                o.Password.RequireNonAlphanumeric = true;
                 o.Password.RequiredLength = 6;
                 o.User.RequireUniqueEmail = true;
             })
