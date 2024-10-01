@@ -1,6 +1,10 @@
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 using Service.Contracts;
 using Shared.DataTransferObjects;
+using System.Security.Claims;
 
 namespace eLearningSystem.Presentation.Controllers
 {
@@ -18,12 +22,36 @@ namespace eLearningSystem.Presentation.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterRequestDto registerUserDto)
         {
-            bool result = await _service.AuthenticationService.CreateUser(registerUserDto, "Learner");
-            if (result)
+            IdentityResult result = await _service.AuthenticationService.CreateUser(registerUserDto, "Learner");
+            if (result.Succeeded)
             {
+               await _service.AuthenticationService.SendConfirmEmail(registerUserDto.UserName);
+                
                 return Ok(new ResponseDto(["User registered successfully!"]));
             }
-            else return BadRequest(new ResponseDto(["Registration failed. Please try again."]));
+            else
+            {
+                List<string> error = result.Errors.Select(c => c.Description).ToList();
+
+                return BadRequest(new ResponseDto(error));
+            }
+        }
+        [HttpPost("confirm-email")]
+        public async Task<IActionResult> ConfirmEmail([FromBody]  ConfirmEmailRequestDto request)
+        {
+
+            if (string.IsNullOrEmpty(request.email) || string.IsNullOrEmpty(request.token))
+                return BadRequest(new ResponseDto(["Invalid request."]));
+
+
+            var result = await _service.AuthenticationService.ConfirmEmail(request.email, request.token);
+            if (!result.Succeeded)
+            {
+                List<string> error = result.Errors.Select(c => c.Description).ToList();
+
+                return BadRequest(new ResponseDto(error));
+            }
+            return Ok(new ResponseDto(["Confirm email successful."]));
         }
 
         [HttpPost("login")]

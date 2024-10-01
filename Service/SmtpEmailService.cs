@@ -24,7 +24,14 @@ namespace Service
 
             await SendEmailAsync(userEmail, subject: "Đặt lại mật khẩu", body);
         }
+        public async Task SendConfirmEmailAsync(string userEmail, string token)
+        {
+            var resetPasswordUrl = $"{_configuration["JwtSettings:ValidAudience"]}/confirm-email?email={userEmail}&token={token}";
 
+            var body = GenerateConfirmEmailHtmlBody(userEmail, resetPasswordUrl);
+
+            await SendEmailAsync(userEmail, subject: "Xác thực email", body);
+        }
         public async Task SendEmailAsync(string toEmail, string subject, string body)
         {
             var fromEmail = _configuration["Mailjet:FromEmail"];
@@ -48,6 +55,17 @@ namespace Service
             <p>Trân trọng,<br/>
             <strong>eLearning System</strong></p>
         ";
+        }
+        private string GenerateConfirmEmailHtmlBody(string userName, string confirmEmailUrl)
+        {
+            return $@"
+            <p>Xin chào <strong>{userName}</strong>,</p>
+            <p>Cảm ơn bạn đã đăng ký tài khoản trên hệ thống của chúng tôi. Để hoàn tất quá trình đăng ký, vui lòng xác thực địa chỉ email của bạn bằng cách nhấp vào liên kết dưới đây:</p>
+            <p><a href=""{confirmEmailUrl}"" style=""background-color:#4CAF50;color:white;padding:10px 20px;text-align:center;text-decoration:none;display:inline-block;"">Xác thực email</a></p>
+            <p>Liên kết này sẽ hết hạn sau 24 giờ. Nếu bạn không đăng ký tài khoản, vui lòng bỏ qua email này.</p>
+            <p>Trân trọng,<br/>
+            <strong>eLearning System</strong></p>
+            ";
         }
     }
 }

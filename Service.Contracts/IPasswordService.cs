@@ -1,4 +1,5 @@
-﻿using Shared.DataTransferObjects;
+﻿using Microsoft.AspNetCore.Identity;
+using Shared.DataTransferObjects;
 
 namespace Service.Contracts
 {
@@ -7,6 +8,8 @@ namespace Service.Contracts
 
         Task<string?> GeneratePasswordResetTokenAsync(string email);
         Task<bool> ValidatePasswordResetTokenAsync(string userId, string token);
-        Task ResetPasswordByLinkAsync(ResetPasswordByLinkRequestDto request);
+        Task<IdentityResult> ResetPasswordByLinkAsync(ResetPasswordByLinkRequestDto request);
+
+        Task<IdentityResult> ResetPassword(string email, ChangePasswordDto request);
     }
 }

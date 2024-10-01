@@ -18,13 +18,15 @@ namespace Service
         private readonly IMapper _mapper;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IConfiguration _configuration;
+        private readonly IEmailService _emailService;
         private ApplicationUser? _user;
 
-        public AuthenticationService(IMapper mapper, UserManager<ApplicationUser> userManager, IConfiguration configuration)
+        public AuthenticationService(IMapper mapper, UserManager<ApplicationUser> userManager, IConfiguration configuration, IEmailService emailService)
         {
             _mapper = mapper;
             _userManager = userManager;
             _configuration = configuration;
+            _emailService = emailService;
         }
 
         public async Task<bool> ValidateUser(LoginRequestDto loginUser)
@@ -111,7 +113,7 @@ namespace Service
             }
         }
 
-        public async Task<bool> CreateUser(RegisterRequestDto registerUserDto, string role)
+        public async Task<IdentityResult> CreateUser(RegisterRequestDto registerUserDto, string role)
         {
             var user = new ApplicationUser
             {
@@ -120,15 +122,23 @@ namespace Service
             };
             var identityResult = await _userManager.CreateAsync(user, registerUserDto.Password);
 
-            if (!identityResult.Succeeded) return false;
+            if (!identityResult.Succeeded) return identityResult;
 
             identityResult = await _userManager.AddToRoleAsync(user,  role);
 
-            if (!identityResult.Succeeded)
-                return false;
-
-            return true;
+            return identityResult;
         }
-        
+        public async Task<IdentityResult> ConfirmEmail(string email, string token)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            return await _userManager.ConfirmEmailAsync(user!, token);
+        }
+
+        public async Task SendConfirmEmail(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            string token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+             await _emailService.SendConfirmEmailAsync(email, token);
+        }
     }
 }
