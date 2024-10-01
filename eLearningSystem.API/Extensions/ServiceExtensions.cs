@@ -78,9 +78,5 @@ namespace eLearningSystem.API.Extensions
             });
         }
 
-        //public static void ConfigureApplicationServices(IServiceCollection services, IConfiguration configuration)
-        //{
-        //    services.AddSingleton<IEmailService, SmtpEmailService>();
-        //}
     }
 }
