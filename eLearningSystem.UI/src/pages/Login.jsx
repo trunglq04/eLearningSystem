@@ -1,7 +1,10 @@
+import { motion as m } from "framer-motion";
 import React, { useState } from "react";
-import banner from "../assets/banner.jpg";
-import { useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
+import { useNavigate } from "react-router-dom";
+import banner from "../assets/banner.jpg";
+import { login } from "../utils/APIServices";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function Login() {
   const nav = useNavigate();
@@ -9,7 +12,7 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState({});
   const emailRegex = /^[\w.-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/;
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     let newErrors = { ...error };
 
@@ -32,11 +35,38 @@ export default function Login() {
     }
 
     setError(newErrors); // Update the error state with the new object
+
+    if (Object.keys(newErrors).length === 0) {
+      try {
+        const data = await login(email, password);
+        console.log(data.data.data.accessToken);
+        if (data.status === 200) {
+          localStorage.setItem(
+            "accessToken",
+            JSON.stringify(data.data.data.accessToken)
+          );
+          localStorage.setItem(
+            "refreshToken",
+            JSON.stringify(data.data.data.refreshToken)
+          );
+          nav("/");
+        }
+      } catch (err) {
+        toast.error(err.response.data.message[0]);
+        // console.log(err.response.data.message[0]);
+      }
+    }
   };
 
   return (
     <>
-      <div className="h-screen w-screen grid grid-cols-2">
+      <m.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+        className="h-screen w-screen grid grid-cols-2"
+      >
+        <Toaster />
         <div className="px-12 py-12">
           <img
             className="object-cover w-full h-full rounded-xl"
@@ -47,12 +77,12 @@ export default function Login() {
           <div className="flex h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
             <div className="sm:mx-auto sm:w-full sm:max-w-sm">
               <img
-                alt="Your Company"
-                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                className="mx-auto h-10 w-auto"
+                alt="E-Learning System"
+                src="https://png.pngtree.com/template/20190316/ourmid/pngtree-books-logo-image_79143.jpg"
+                className="mx-auto h-24 w-24"
               />
-              <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-                Sign in to your account
+              <h2 className="text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
+                SIGN IN
               </h2>
             </div>
 
@@ -63,7 +93,7 @@ export default function Login() {
                     htmlFor="email"
                     className="block text-sm font-medium leading-6 text-gray-900"
                   >
-                    Email address
+                    Email
                   </label>
                   <div className="mt-2">
                     <input
@@ -77,7 +107,7 @@ export default function Login() {
                       onChange={(e) => setEmail(e.target.value)}
                     />
                     {error.email && (
-                      <p className="mt-2 text-pink-600 text-sm">
+                      <p className="mt-1 text-pink-600 text-sm">
                         {error.email}
                       </p>
                     )}
@@ -107,7 +137,7 @@ export default function Login() {
                       onChange={(e) => setPassword(e.target.value)}
                     />
                     {error.password && (
-                      <p className="mt-2 text-pink-600 text-sm">
+                      <p className="mt-1 text-pink-600 text-sm">
                         {error.password}
                       </p>
                     )}
@@ -154,7 +184,7 @@ export default function Login() {
             </div>
           </div>
         </div>
-      </div>
+      </m.div>
     </>
   );
 }
