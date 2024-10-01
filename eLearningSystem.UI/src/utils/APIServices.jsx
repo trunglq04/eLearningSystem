@@ -7,3 +7,10 @@ export const registerLearner = async (data) => {
     ConfirmPassword: data.confirmPassword,
   });
 };
+
+export const confirmEmail = async (email, token) => {
+  return client.post("/auth/confirm-email", {
+    email: email,
+    token: token,
+  });
+};

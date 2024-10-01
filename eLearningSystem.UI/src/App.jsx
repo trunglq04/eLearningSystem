@@ -6,6 +6,9 @@ import Register from "./pages/Register";
 import Profile from "./pages/Profile";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
+import VerifyEmail from "./pages/VerifyEmail";
+import ConfirmEmailSuccess from "./pages/Verify/ConfirmEmailSuccess";
+import ConfirmEmailFailed from "./pages/Verify/ConfirmEmailFailed";
 
 const router = createBrowserRouter([
   {
@@ -32,6 +35,17 @@ const router = createBrowserRouter([
   {
     path: "/reset-password",
     element: <ResetPassword />,
+
+    path: "/confirm-email",
+    element: <VerifyEmail />,
+  },
+  {
+    path: "/email/verify/success",
+    element: <ConfirmEmailSuccess />,
+  },
+  {
+    path: "/email/verify/failed",
+    element: <ConfirmEmailFailed />,
   },
 ]);
 
