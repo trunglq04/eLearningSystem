@@ -1,22 +1,21 @@
-﻿using Entities.Models;
+﻿using AutoMapper;
+using Entities.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Service.Contracts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Shared.DataTransferObjects;
 
 namespace Service
 {
     public class UserService : IUserService
     {
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IMapper _mapper;
 
-        public UserService( UserManager<ApplicationUser> userManager)
+        public UserService( UserManager<ApplicationUser> userManager, IMapper mapper)
         {
             _userManager = userManager;
+             _mapper = mapper;
         }
 
         public async Task<UserRequestDto> GetUser(string id)

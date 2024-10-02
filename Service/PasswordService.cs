@@ -5,7 +5,7 @@ using Shared.DataTransferObjects;
 
 namespace Service
 {
-    internal class PasswordService : IPasswordService
+    public class PasswordService : IPasswordService
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IEmailService _emailService;
