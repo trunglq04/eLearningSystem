@@ -14,9 +14,9 @@ namespace Repository.Configuration
                 new ApplicationRole
                 {
                     Id = new Guid("46c0e508-b293-49fb-b73d-a434b896c604"),
-                    Name = "Administrator",
-                    NormalizedName = "ADMINISTRATOR",
-                    Description = "Administrator role with full rights"
+                    Name = "Admin",
+                    NormalizedName = "Admin",
+                    Description = "Admin role with full rights"
                 },
                 new ApplicationRole
                 {

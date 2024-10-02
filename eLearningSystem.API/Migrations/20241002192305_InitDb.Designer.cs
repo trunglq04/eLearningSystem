@@ -12,8 +12,8 @@ using Repository;
 namespace eLearningSystem.API.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20240926135843_Init Data")]
-    partial class InitData
+    [Migration("20241002192305_InitDb")]
+    partial class InitDb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -59,9 +59,9 @@ namespace eLearningSystem.API.Migrations
                         new
                         {
                             Id = new Guid("46c0e508-b293-49fb-b73d-a434b896c604"),
-                            Description = "Administrator role with full rights",
-                            Name = "Administrator",
-                            NormalizedName = "ADMINISTRATOR"
+                            Description = "Admin role with full rights",
+                            Name = "Admin",
+                            NormalizedName = "Admin"
                         },
                         new
                         {
@@ -79,7 +79,7 @@ namespace eLearningSystem.API.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Entities.Models.User", b =>
+            modelBuilder.Entity("Entities.Models.ApplicationUser", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -168,14 +168,17 @@ namespace eLearningSystem.API.Migrations
                         {
                             Id = new Guid("c9d4c053-49b6-410c-bc78-2d54a9991870"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "fa3f2deb-bf25-4aa4-b3d6-e35dc60afead",
+                            ConcurrencyStamp = "28ab92e9-8678-4e28-b857-fc4cbf6039b6",
                             Email = "admin@elearning.com",
-                            EmailConfirmed = false,
+                            EmailConfirmed = true,
                             LockoutEnabled = false,
-                            NormalizedUserName = "ADMIN",
+                            NormalizedEmail = "ADMIN@ELEARNING.COM",
+                            NormalizedUserName = "admin@elearning.com",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHB4AStanpqHMlyS+MWJrCe//VZOUNTNS2q3WKGVN1sqKVgqM6aHUnfGhNVWc+RwqQ==",
                             PhoneNumberConfirmed = false,
+                            SecurityStamp = "a5e2a87a-cbd8-4bea-a704-f4732f6e4284",
                             TwoFactorEnabled = false,
-                            UserName = "admin"
+                            UserName = "admin@elearning.com"
                         });
                 });
 
@@ -261,6 +264,13 @@ namespace eLearningSystem.API.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = new Guid("c9d4c053-49b6-410c-bc78-2d54a9991870"),
+                            RoleId = new Guid("46c0e508-b293-49fb-b73d-a434b896c604")
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
@@ -293,7 +303,7 @@ namespace eLearningSystem.API.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
                 {
-                    b.HasOne("Entities.Models.User", null)
+                    b.HasOne("Entities.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -302,7 +312,7 @@ namespace eLearningSystem.API.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
                 {
-                    b.HasOne("Entities.Models.User", null)
+                    b.HasOne("Entities.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -317,7 +327,7 @@ namespace eLearningSystem.API.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Entities.Models.User", null)
+                    b.HasOne("Entities.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -326,7 +336,7 @@ namespace eLearningSystem.API.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
                 {
-                    b.HasOne("Entities.Models.User", null)
+                    b.HasOne("Entities.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)

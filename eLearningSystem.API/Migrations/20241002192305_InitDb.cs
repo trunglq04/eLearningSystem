@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace eLearningSystem.API.Migrations
 {
     /// <inheritdoc />
-    public partial class InitData : Migration
+    public partial class InitDb : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -171,14 +171,19 @@ namespace eLearningSystem.API.Migrations
                 values: new object[,]
                 {
                     { new Guid("10c68bf0-2e56-42b2-a734-69101ba2ae79"), null, "Learner role with rights to view courses and lessons", "Learner", "LEARNER" },
-                    { new Guid("46c0e508-b293-49fb-b73d-a434b896c604"), null, "Administrator role with full rights", "Administrator", "ADMINISTRATOR" },
+                    { new Guid("46c0e508-b293-49fb-b73d-a434b896c604"), null, "Admin role with full rights", "Admin", "Admin" },
                     { new Guid("7ab8cd5b-42af-42a3-9887-8b0df982104b"), null, "Tutor role with rights to create courses and lessons", "Tutor", "TUTOR" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "DateOfBirth", "Email", "EmailConfirmed", "FullName", "Gender", "Image", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "RefreshToken", "RefreshTokenExpirationTime", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { new Guid("c9d4c053-49b6-410c-bc78-2d54a9991870"), 0, "fa3f2deb-bf25-4aa4-b3d6-e35dc60afead", null, "admin@elearning.com", false, null, null, null, false, null, null, "ADMIN", null, null, false, null, null, null, false, "admin" });
+                values: new object[] { new Guid("c9d4c053-49b6-410c-bc78-2d54a9991870"), 0, "28ab92e9-8678-4e28-b857-fc4cbf6039b6", null, "admin@elearning.com", true, null, null, null, false, null, "ADMIN@ELEARNING.COM", "admin@elearning.com", "AQAAAAIAAYagAAAAEHB4AStanpqHMlyS+MWJrCe//VZOUNTNS2q3WKGVN1sqKVgqM6aHUnfGhNVWc+RwqQ==", null, false, null, null, "a5e2a87a-cbd8-4bea-a704-f4732f6e4284", false, "admin@elearning.com" });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUserRoles",
+                columns: new[] { "RoleId", "UserId" },
+                values: new object[] { new Guid("46c0e508-b293-49fb-b73d-a434b896c604"), new Guid("c9d4c053-49b6-410c-bc78-2d54a9991870") });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
