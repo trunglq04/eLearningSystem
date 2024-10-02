@@ -33,6 +33,7 @@ namespace eLearningSystem.Presentation.Controllers
                 return BadRequest(new ResponseDto(error));
             }
         }
+
         [HttpPost("confirm-email")]
         public async Task<IActionResult> ConfirmEmail([FromBody] ConfirmEmailRequestDto request)
         {

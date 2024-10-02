@@ -132,7 +132,6 @@ namespace Service
             if (!identityResult.Succeeded) return identityResult;
 
             identityResult = await _userManager.AddToRoleAsync(user,  role);
-
             return identityResult;
         }
 
@@ -143,7 +142,8 @@ namespace Service
             if (user is null)
                 return IdentityResult.Failed(new IdentityError { Description = "Invalid information" });
 
-            return await _userManager.ConfirmEmailAsync(user!, token);
+            var identityResult = await _userManager.ConfirmEmailAsync(user, token);
+            return identityResult;
         }
 
         public async Task SendConfirmEmail(string email)
