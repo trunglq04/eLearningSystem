@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Entities.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 using Service.Contracts;
 using Shared.DataTransferObjects;
 
@@ -28,7 +29,7 @@ namespace Service
         {
             throw new NotImplementedException();
         }
-
+        
         //public async Task<UserRequestDto> UpdateUser(UserRequestDto request)
         //{
         //    var user = _mapper.Map<ApplicationUser>(request);

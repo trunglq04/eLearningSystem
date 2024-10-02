@@ -1,4 +1,5 @@
 ﻿using Entities.Models;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -37,13 +38,7 @@ namespace Service
                 _user = await _userManager.FindByNameAsync(loginUser.UserName);
                 return signInResult;
             }
-
-            var user = await _userManager.FindByNameAsync(loginUser.UserName);
-            if (user is null || !await _userManager.CheckPasswordAsync(user, loginUser.Password))
-                return SignInResult.Failed; // Username or password is incorrect
-
-            // Email not confirmed
-            return SignInResult.NotAllowed; ;
+            return false;
         }
 
         public async Task<bool> IsUserEmailExist(ForgotPasswordRequestDto request)
@@ -100,11 +95,12 @@ namespace Service
             var claims = new List<Claim>
             {
                 new Claim("email", _user.UserName),
+                new Claim("id", _user.Id.ToString()),
             };
 
             var roles = await _userManager.GetRolesAsync(_user);
             claims.AddRange(roles.Select(role => new Claim("role", role)));
-
+            
             return claims;
         }
 
