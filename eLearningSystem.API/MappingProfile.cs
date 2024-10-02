@@ -17,8 +17,9 @@ namespace eLearningSystem.API
             .ForMember(c => c.Image,
                 opt => opt.MapFrom(x => x.Image ?? "None"))
             .ForMember(c => c.FullName,
-                opt => opt.MapFrom(x => x.FullName ?? "None")); ;
-            
+                opt => opt.MapFrom(x => x.FullName ?? "None"))
+            .ForMember(c => c.PhoneNumber,
+                opt => opt.MapFrom(x => x.PhoneNumber ?? "None")); 
 
         }
     }
