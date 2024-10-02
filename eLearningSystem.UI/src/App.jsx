@@ -16,7 +16,7 @@ const getAccessToken = () => {
 };
 
 const isAuthenticated = () => {
-  return getAccessToken();
+  return !!getAccessToken();
 };
 
 const router = createBrowserRouter([
