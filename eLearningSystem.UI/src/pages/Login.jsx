@@ -39,21 +39,22 @@ export default function Login() {
     if (Object.keys(newErrors).length === 0) {
       try {
         const data = await login(email, password);
-        console.log(data.data.data.accessToken);
-        if (data.status === 200) {
-          localStorage.setItem(
-            "accessToken",
-            JSON.stringify(data.data.data.accessToken)
-          );
-          localStorage.setItem(
-            "refreshToken",
-            JSON.stringify(data.data.data.refreshToken)
-          );
+        console.log(data);
+        localStorage.setItem(
+          "accessToken",
+          JSON.stringify(data.data.accessToken)
+        );
+        localStorage.setItem(
+          "refreshToken",
+          JSON.stringify(data.data.refreshToken)
+        );
+        toast.success(data.message[0]);
+        setTimeout(() => {
           nav("/");
-        }
+        }, 1000);
       } catch (err) {
         toast.error(err.response.data.message[0]);
-        // console.log(err.response.data.message[0]);
+        console.log(err);
       }
     }
   };

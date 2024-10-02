@@ -26,9 +26,8 @@ export default function InputEmail() {
     if (Object.keys(newErrors).length === 0) {
       try {
         const data = await forgotPassword(email);
-        if (data.status === 200) {
-          toast.success(data.data.message);
-        }
+        toast.success(data.message[0]);
+
         console.log(data);
       } catch (err) {
         toast.error(err.response.data.message);

@@ -76,6 +76,7 @@ export default function Header() {
 
   const hanldeSignOut = () => {
     localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
     nav("/");
   };
 

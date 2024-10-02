@@ -3,7 +3,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import banner from "../assets/banner.jpg";
 import { motion as m } from "framer-motion";
-import { registerLearner } from "../utils/ApiFunctions";
+import { registerLearner } from "../utils/APIServices";
 
 export default function Register() {
   const navigate = useNavigate();

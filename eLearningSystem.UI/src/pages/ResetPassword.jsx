@@ -1,14 +1,21 @@
 import React, { useState } from "react";
 import banner from "../assets/banner.jpg";
 import { useNavigate } from "react-router-dom";
+import { resetPassword } from "../utils/APIServices";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function ResetPassword() {
   const nav = useNavigate();
   const [confirmPass, setConfirmPass] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState({});
+  const queryParams = new URLSearchParams(window.location.search);
 
-  const handleSubmit = (e) => {
+  const resetToken = queryParams.get("token");
+  const email = queryParams.get("email");
+  console.log(typeof resetToken);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     let newErrors = { ...error };
 
@@ -18,21 +25,28 @@ export default function ResetPassword() {
     } else if (password.length < 6) {
       newErrors.password = "Password must be at least 6 characters";
     } else {
-      delete newErrors.password; // Remove the error if the validation passes
+      delete newErrors.password;
     }
 
     // Confirm password validation
     if (!confirmPass.match(password)) {
       newErrors.confirmPass = "Passwords do not match";
     } else {
-      delete newErrors.confirmPass; // Remove the error if the validation passes
+      delete newErrors.confirmPass;
     }
 
-    setError(newErrors); // Update the error state with the new object
+    setError(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-      // If there are no errors, navigate to the dashboard
-      nav("/login");
+      try {
+        console.log(email, password, resetToken);
+        const data = await resetPassword({ email, password, resetToken });
+        toast.success(data.message[0]);
+        console.log(data);
+      } catch (err) {
+        toast.error(err.response.data.message[0]);
+        console.log(err);
+      }
     }
   };
   return (
@@ -45,6 +59,7 @@ export default function ResetPassword() {
           ></img>
         </div>
         <div className="w-full h-full">
+          <Toaster />
           <div className="flex h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
             <div className="sm:mx-auto sm:w-full sm:max-w-sm">
               <img
