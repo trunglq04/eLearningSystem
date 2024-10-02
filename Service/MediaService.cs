@@ -22,11 +22,10 @@ namespace Service
                 cloudinaryConfig["ApiKey"],
                 cloudinaryConfig["ApiSecret"]
             );
-
             _cloudinary = new Cloudinary(account);
         }
 
-        public async Task<string> UploadImageAsync(IFormFile file)
+        public async Task<string?> UploadImageAsync(IFormFile file)
         {
             if (file == null || file.Length == 0)
             {
@@ -49,25 +48,23 @@ namespace Service
                 throw new ArgumentException("Invalid file type.");
             }
 
-            var uploadResult = new ImageUploadResult();
-
-            using (var stream = file.OpenReadStream())
+            await using var stream = file.OpenReadStream();
+            var uploadParams = new ImageUploadParams()
             {
-                var uploadParams = new ImageUploadParams()
-                {
-                    File = new FileDescription(file.FileName, stream),
-                    Transformation = new Transformation().Quality("auto").FetchFormat("auto")
-                };
+                File = new FileDescription(file.FileName, stream),
+                UseFilename = true,
+                UniqueFilename = false,
+                Overwrite = true
+            };
 
-                uploadResult = await _cloudinary.UploadAsync(uploadParams);
-            }
+            var uploadResult = await _cloudinary.UploadAsync(uploadParams);
 
             if (uploadResult.StatusCode == System.Net.HttpStatusCode.OK)
             {
                 return uploadResult.SecureUrl.AbsoluteUri;
             }
 
-            throw new Exception(uploadResult.Error.Message);
+            return null;
         }
     }
 }

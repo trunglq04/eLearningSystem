@@ -27,7 +27,7 @@ namespace Service
                 new PasswordService(userManager, EmailService));
 
             _userService = new Lazy<IUserService>(() =>
-                new UserService(userManager, mapper));
+                new UserService(userManager, mapper, MediaService));
 
             _mediaService = new Lazy<IMediaService>(() =>
                 new MediaService(configuration));

@@ -4,6 +4,6 @@ namespace Service.Contracts
 {
     public interface IMediaService
     {
-        Task<string> UploadImageAsync(IFormFile file);
+        Task<string?> UploadImageAsync(IFormFile file);
     }
 }
