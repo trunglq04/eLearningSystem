@@ -19,6 +19,19 @@ namespace Service
             _userManager = userManager;
         }
 
-        
+        public async Task<UserRequestDto> GetUser(string id)
+        {
+            var user =  await _userManager.FindByIdAsync(id);
+            var userReturn = _mapper.Map<UserRequestDto>(user);
+            return userReturn;
+        }
+
+        //public async Task<UserRequestDto> UpdateUser(UserRequestDto request)
+        //{
+        //    var user = _mapper.Map<ApplicationUser>(request);
+        //     user = await  _userManager.UpdateAsync(user);
+        //    var userReturn = _mapper.Map<UserRequestDto>(user);
+        //    return user;
+        //}
     }
 }
