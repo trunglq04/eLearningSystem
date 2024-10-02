@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared.DataTransferObjects;
@@ -47,12 +49,12 @@ namespace eLearningSystem.Presentation.Controllers
             return Ok(new ResponseDto([$"Get user id {id} successfully"], user));
 
         }
+
         [HttpPost]
         [Authorize]
         public async Task<IActionResult> UpdateUser([FromBody] UserRequestDto request)
         {
             string? userId = string.Empty;
-
 
             if (HttpContext.User.Identity is ClaimsIdentity identity)
             {
@@ -74,6 +76,32 @@ namespace eLearningSystem.Presentation.Controllers
 
             return Ok(new ResponseDto([$"Update user have id {user.FullName} successfully"], user));
 
+        }
+
+        [HttpPost("upload-avatar")]
+        [Authorize]
+        public async Task<IActionResult> UploadAvatar([FromForm] IFormFile file)
+        {
+            var userId = User.FindFirstValue("id");
+            if (userId is null)
+                return BadRequest(new ResponseDto(["Cannot get user id"]));
+
+            IActionResult response = await _service.UserService.UploadAvatarAsync(userId, file);
+
+            return response;
+        }
+
+        [HttpPost("upload-avatar")]
+        [Authorize]
+        public async Task<IActionResult> UploadAvatar([FromForm] IFormFile file)
+        {
+            var userId = User.FindFirstValue("id");
+            if (userId is null)
+                return BadRequest(new ResponseDto(["Cannot get user id"]));
+
+            IActionResult response = await _service.UserService.UploadAvatarAsync(userId, file);
+
+            return response;
         }
 
     }
