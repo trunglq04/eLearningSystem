@@ -19,17 +19,17 @@ namespace eLearningSystem.Presentation.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterRequestDto registerUserDto)
         {
+
             IdentityResult result = await _service.AuthenticationService.CreateUser(registerUserDto, "Learner");
+
             if (result.Succeeded)
             {
-               await _service.AuthenticationService.SendConfirmEmail(registerUserDto.UserName);
-                
+                await _service.AuthenticationService.SendConfirmEmail(registerUserDto.UserName);
                 return Ok(new ResponseDto(["User registered successfully!"]));
             }
             else
             {
                 List<string> error = result.Errors.Select(c => c.Description).ToList();
-
                 return BadRequest(new ResponseDto(error));
             }
         }
@@ -37,10 +37,8 @@ namespace eLearningSystem.Presentation.Controllers
         [HttpPost("confirm-email")]
         public async Task<IActionResult> ConfirmEmail([FromBody] ConfirmEmailRequestDto request)
         {
-
             if (string.IsNullOrEmpty(request.email) || string.IsNullOrEmpty(request.token))
                 return BadRequest(new ResponseDto(["Invalid request."]));
-
 
             var result = await _service.AuthenticationService.ConfirmEmail(request.email, request.token);
             if (!result.Succeeded)

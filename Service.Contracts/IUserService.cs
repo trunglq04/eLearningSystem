@@ -1,10 +1,11 @@
-﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity;
 using Shared.DataTransferObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Shared.DataTransferObjects;
 
 namespace Service.Contracts
 {
@@ -12,5 +13,6 @@ namespace Service.Contracts
     {
         public Task<UserRequestDto> GetUser(string id);
         public Task<(UserRequestDto, IdentityResult)> UpdateUser(UserRequestDto request, string id);
+
     }
 }

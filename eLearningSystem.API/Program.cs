@@ -1,4 +1,5 @@
 using eLearningSystem.API.Extensions;
+using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,7 +8,23 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.ConfigureCors(builder.Configuration);
 builder.Services.ConfigureIISIntegration();
 
-builder.Services.AddControllers().AddApplicationPart(typeof(eLearningSystem.Presentation.AssemblyReference).Assembly);
+
+builder.Services.AddControllers()
+    .AddApplicationPart(typeof(eLearningSystem.Presentation.AssemblyReference).Assembly)
+    .ConfigureApiBehaviorOptions(options =>
+    {
+        options.InvalidModelStateResponseFactory = context =>
+        {
+            var errors = context.ModelState
+                .Where(ms => ms.Value.Errors.Count > 0)
+                .SelectMany(ms =>
+                    ms.Value.Errors.Select(e => e.ErrorMessage)
+                ).ToList();
+
+            return new BadRequestObjectResult(new { Message = errors });
+        };
+    });
+
 
 builder.Services.ConfigureSqlContext(builder.Configuration);
 builder.Services.ConfigureRepositoryManager();
