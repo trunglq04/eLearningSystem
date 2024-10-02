@@ -11,14 +11,6 @@ import ConfirmEmailSuccess from "./pages/Verify/ConfirmEmailSuccess";
 import ConfirmEmailFailed from "./pages/Verify/ConfirmEmailFailed";
 import ProtectedRoute from "./utils/ProtectedRoute ";
 
-const getAccessToken = () => {
-  return localStorage.getItem("accessToken");
-};
-
-const isAuthenticated = () => {
-  return getAccessToken();
-};
-
 const router = createBrowserRouter([
   {
     path: "/",
@@ -54,7 +46,7 @@ const router = createBrowserRouter([
     element: <ConfirmEmailFailed />,
   },
   {
-    element: <ProtectedRoute isAuthenticated={isAuthenticated()} />,
+    element: <ProtectedRoute />,
     children: [
       {
         path: "/my-profile",
