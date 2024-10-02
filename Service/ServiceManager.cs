@@ -13,10 +13,10 @@ namespace Service
         private readonly Lazy<IEmailService> _emailService;
         private readonly Lazy<IPasswordService> _passwordService;
 
-        public ServiceManager(IRepositoryManager repositoryManager, IMapper mapper, UserManager<ApplicationUser> userManager, IConfiguration configuration)
+        public ServiceManager(IRepositoryManager repositoryManager, IMapper mapper, SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, IConfiguration configuration)
         {
             _authenticationService = new Lazy<IAuthenticationService>(() => 
-                new AuthenticationService(mapper, userManager, configuration, EmailService));
+                new AuthenticationService(signInManager, userManager, configuration, EmailService));
             _emailService = new Lazy<IEmailService>(() => 
                 new SmtpEmailService(configuration));
             _passwordService = new Lazy<IPasswordService>(() =>

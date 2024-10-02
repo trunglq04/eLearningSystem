@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿
+using System.ComponentModel.DataAnnotations;
 
 namespace Shared.DataTransferObjects
 {
-    public record RegisterRequestDto
+    public record RegisterRequestDto 
     {
         [EmailAddress(ErrorMessage = "Please enter a valid email address.")]
         public string UserName { get; init; }
@@ -12,5 +13,5 @@ namespace Shared.DataTransferObjects
 
         [Compare("Password", ErrorMessage = "Passwords do not match.")]
         public string ConfirmPassword { get; init; }
-    }
+    }   
 }

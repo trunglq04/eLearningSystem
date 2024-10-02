@@ -28,6 +28,7 @@ var app = builder.Build();
 app.UseHttpsRedirection();
 
 app.UseCors("CorsPolicy");
+
 app.UseAuthentication();
 app.UseAuthorization();
 

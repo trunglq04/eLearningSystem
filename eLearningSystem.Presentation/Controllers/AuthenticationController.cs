@@ -1,10 +1,7 @@
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json.Linq;
 using Service.Contracts;
 using Shared.DataTransferObjects;
-using System.Security.Claims;
 
 namespace eLearningSystem.Presentation.Controllers
 {
@@ -37,7 +34,7 @@ namespace eLearningSystem.Presentation.Controllers
             }
         }
         [HttpPost("confirm-email")]
-        public async Task<IActionResult> ConfirmEmail([FromBody]  ConfirmEmailRequestDto request)
+        public async Task<IActionResult> ConfirmEmail([FromBody] ConfirmEmailRequestDto request)
         {
 
             if (string.IsNullOrEmpty(request.email) || string.IsNullOrEmpty(request.token))

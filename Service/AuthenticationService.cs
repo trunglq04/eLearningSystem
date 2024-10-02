@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Entities.Models;
+﻿using Entities.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -15,15 +14,15 @@ namespace Service
 {
     public class AuthenticationService : IAuthenticationService
     {
-        private readonly IMapper _mapper;
-        private readonly UserManager<ApplicationUser> _userManager;
         private readonly IConfiguration _configuration;
         private readonly IEmailService _emailService;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
         private ApplicationUser? _user;
 
-        public AuthenticationService(IMapper mapper, UserManager<ApplicationUser> userManager, IConfiguration configuration, IEmailService emailService)
+        public AuthenticationService(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, IConfiguration configuration, IEmailService emailService)
         {
-            _mapper = mapper;
+            _signInManager = signInManager;
             _userManager = userManager;
             _configuration = configuration;
             _emailService = emailService;
@@ -31,9 +30,14 @@ namespace Service
 
         public async Task<bool> ValidateUser(LoginRequestDto loginUser)
         {
-            _user = await _userManager.FindByNameAsync(loginUser.UserName);
-            var result = (_user != null && await _userManager.CheckPasswordAsync(_user, loginUser.Password));
-            return result;
+            var result = await _signInManager.PasswordSignInAsync(loginUser.UserName, loginUser.Password, isPersistent: false, lockoutOnFailure: true);
+
+            if (result.Succeeded)
+            {
+                _user = await _userManager.FindByNameAsync(loginUser.UserName);
+                return true;
+            }
+            return false;
         }
 
         public async Task<bool> IsUserEmailExist(ForgotPasswordRequestDto request)
@@ -46,7 +50,6 @@ namespace Service
         public async Task<TokenDto?> CreateToken(bool populateExp)
         {
             var accessToken = CreateJwtToken();
-
             var refreshToken = CreateRefreshToken();
 
             _user!.RefreshToken = refreshToken;
@@ -55,16 +58,12 @@ namespace Service
                 _user.RefreshTokenExpirationTime = DateTime.Now.AddDays(7);
 
             await _userManager.UpdateAsync(_user);
-            
-
             return new TokenDto
             {
                 AccessToken = accessToken,
                 RefreshToken = refreshToken
             };
         }
-
-
 
         private string CreateJwtToken()
         {
@@ -94,11 +93,11 @@ namespace Service
         {
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, _user.UserName),
+                new Claim(ClaimTypes.Name, _user!.UserName!),
             };
 
             var roles = await _userManager.GetRolesAsync(_user);
-            claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
+            claims.AddRange(roles.Select(role => new Claim("role", role)));
 
             return claims;
         }
@@ -128,9 +127,14 @@ namespace Service
 
             return identityResult;
         }
+
         public async Task<IdentityResult> ConfirmEmail(string email, string token)
         {
             var user = await _userManager.FindByEmailAsync(email);
+            
+            if (user is null)
+                return IdentityResult.Failed(new IdentityError { Description = "Invalid information" });
+
             return await _userManager.ConfirmEmailAsync(user!, token);
         }
 
@@ -138,7 +142,7 @@ namespace Service
         {
             var user = await _userManager.FindByEmailAsync(email);
             string token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-             await _emailService.SendConfirmEmailAsync(email, token);
+            await _emailService.SendConfirmEmailAsync(email, token);
         }
     }
 }
