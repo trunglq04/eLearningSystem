@@ -25,11 +25,6 @@ namespace Service
             return userReturn;
         }
 
-        public Task<UserRequestDto> UpdateUser(UserRequestDto request)
-        {
-            throw new NotImplementedException();
-        }
-        
         //public async Task<UserRequestDto> UpdateUser(UserRequestDto request)
         //{
         //    var user = _mapper.Map<ApplicationUser>(request);
