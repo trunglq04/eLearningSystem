@@ -79,6 +79,5 @@ namespace Service
                 return new BadRequestObjectResult(new ResponseDto([e.Message]));
             }
         }
-
     }
 }

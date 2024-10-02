@@ -91,5 +91,18 @@ namespace eLearningSystem.Presentation.Controllers
             return response;
         }
 
+        [HttpPost("upload-avatar")]
+        [Authorize]
+        public async Task<IActionResult> UploadAvatar([FromForm] IFormFile file)
+        {
+            var userId = User.FindFirstValue("id");
+            if (userId is null)
+                return BadRequest(new ResponseDto(["Cannot get user id"]));
+
+            IActionResult response = await _service.UserService.UploadAvatarAsync(userId, file);
+
+            return response;
+        }
+
     }
 }
