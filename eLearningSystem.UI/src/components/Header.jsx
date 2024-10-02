@@ -6,6 +6,10 @@ import {
   Disclosure,
   DisclosureButton,
   DisclosurePanel,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuItems,
   Popover,
   PopoverButton,
   PopoverGroup,
@@ -26,6 +30,7 @@ import {
   PlayCircleIcon,
 } from "@heroicons/react/20/solid";
 import { useNavigate } from "react-router-dom";
+import { FaUserCircle } from "react-icons/fa";
 
 const products = [
   {
@@ -66,7 +71,14 @@ const callsToAction = [
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const accessToken = localStorage.getItem("accessToken");
   const nav = useNavigate();
+
+  const hanldeSignOut = () => {
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+    nav("/");
+  };
 
   return (
     <header className="bg-gray-900">
@@ -75,7 +87,12 @@ export default function Header() {
         className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8"
       >
         <div className="flex lg:flex-1">
-          <a href="#" className="-m-1.5 p-1.5">
+          <a
+            onClick={() => {
+              nav("/");
+            }}
+            className="-m-1.5 p-1.5 cursor-pointer"
+          >
             <span className="sr-only">Your Company</span>
             <img
               alt=""
@@ -171,14 +188,57 @@ export default function Header() {
           </a>
         </PopoverGroup>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          <a
-            onClick={() => {
-              nav("/login");
-            }}
-            className="text-sm font-semibold leading-6 text-gray-400 cursor-pointer hover:text-gray-200"
-          >
-            Log in <span aria-hidden="true">&rarr;</span>
-          </a>
+          {accessToken ? (
+            <>
+              <Menu as="div" className="relative inline-block text-left">
+                <div>
+                  <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-md px-3 py-2 text-sm font-semibold  shadow-sm text-gray-400 cursor-pointer hover:text-gray-200 ">
+                    <FaUserCircle className="h-7 w-7" />
+                  </MenuButton>
+                </div>
+
+                <MenuItems
+                  transition
+                  className="absolute right-0 z-10 mt-2 w-28 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
+                >
+                  <div className="py-1">
+                    <MenuItem>
+                      <a
+                        onClick={() => {
+                          nav("/my-profile");
+                        }}
+                        className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900 cursor-pointer"
+                      >
+                        My Profile
+                      </a>
+                    </MenuItem>
+                    <form>
+                      <MenuItem>
+                        <button
+                          onClick={hanldeSignOut}
+                          type="submit"
+                          className="block w-full px-4 py-2 text-left text-sm text-rose-400 data-[focus]:bg-gray-100 data-[focus]:text-rose-700 font-bold"
+                        >
+                          Sign out
+                        </button>
+                      </MenuItem>
+                    </form>
+                  </div>
+                </MenuItems>
+              </Menu>
+            </>
+          ) : (
+            <>
+              <a
+                onClick={() => {
+                  nav("/login");
+                }}
+                className="text-sm font-semibold leading-6 text-gray-400 cursor-pointer hover:text-gray-200"
+              >
+                Log in <span aria-hidden="true">&rarr;</span>
+              </a>
+            </>
+          )}
         </div>
       </nav>
       <Dialog

@@ -1,6 +1,7 @@
 import React from "react";
 import banner from "../assets/banner.jpg";
 import InputEmail from "../components/InputEmail";
+import { motion as m } from "framer-motion";
 
 export default function ForgotPassword() {
   return (
@@ -12,9 +13,14 @@ export default function ForgotPassword() {
             src={banner}
           ></img>
         </div>
-        <div className="w-full h-full">
+        <m.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.75, ease: "easeOut" }}
+          className=""
+        >
           <InputEmail />
-        </div>
+        </m.div>
       </div>
     </>
   );

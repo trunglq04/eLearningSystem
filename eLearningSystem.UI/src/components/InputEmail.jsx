@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { forgotPassword } from "../utils/APIServices";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function InputEmail() {
   const nav = useNavigate();
   const [email, setEmail] = useState("");
   const [error, setError] = useState({});
   const emailRegex = /^[\w.-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/;
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     let newErrors = { ...error };
 
@@ -16,14 +18,26 @@ export default function InputEmail() {
     } else if (!email.match(emailRegex)) {
       newErrors.email = "Please provide a valid email address.";
     } else {
-      delete newErrors.email; // Remove the error if the validation passes
+      delete newErrors.email;
     }
 
-    setError(newErrors); // Update the error state with the new object
-  };
+    setError(newErrors);
 
+    if (Object.keys(newErrors).length === 0) {
+      try {
+        const data = await forgotPassword(email);
+        toast.success(data.message[0]);
+
+        console.log(data);
+      } catch (err) {
+        toast.error(err.response.data.message);
+        console.log(err);
+      }
+    }
+  };
   return (
     <div className="flex h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+      <Toaster />
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <img
           alt="Your Company"

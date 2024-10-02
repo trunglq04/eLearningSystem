@@ -9,6 +9,15 @@ import ResetPassword from "./pages/ResetPassword";
 import VerifyEmail from "./pages/VerifyEmail";
 import ConfirmEmailSuccess from "./pages/Verify/ConfirmEmailSuccess";
 import ConfirmEmailFailed from "./pages/Verify/ConfirmEmailFailed";
+import ProtectedRoute from "./utils/ProtectedRoute ";
+
+const getAccessToken = () => {
+  return localStorage.getItem("accessToken");
+};
+
+const isAuthenticated = () => {
+  return !!getAccessToken();
+};
 
 const router = createBrowserRouter([
   {
@@ -25,17 +34,14 @@ const router = createBrowserRouter([
     element: <Register />,
   },
   {
-    path: "/my-profile",
-    element: <Profile />,
-  },
-  {
     path: "/forgot-password",
     element: <ForgotPassword />,
   },
   {
     path: "/reset-password",
     element: <ResetPassword />,
-
+  },
+  {
     path: "/confirm-email",
     element: <VerifyEmail />,
   },
@@ -46,6 +52,15 @@ const router = createBrowserRouter([
   {
     path: "/email/verify/failed",
     element: <ConfirmEmailFailed />,
+  },
+  {
+    element: <ProtectedRoute isAuthenticated={isAuthenticated()} />,
+    children: [
+      {
+        path: "/my-profile",
+        element: <Profile />,
+      },
+    ],
   },
 ]);
 
