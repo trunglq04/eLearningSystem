@@ -5,7 +5,7 @@
         IAuthenticationService AuthenticationService { get; }
         IEmailService EmailService { get; }
         IPasswordService PasswordService { get; }
-        
         IUserService UserService { get; }
+        IMediaService MediaService { get; }
     }
 }
