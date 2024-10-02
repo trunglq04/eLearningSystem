@@ -41,6 +41,7 @@ namespace Service
             user.FullName = request.FullName ?? user.FullName;
             user.Email = request.Email ?? user.Email;
             user.Image = request.Image ?? user.Image;
+            user.PhoneNumber = request.PhoneNumber ?? user.PhoneNumber;
 
             user.Gender = string.Equals(request.Gender, "male", StringComparison.OrdinalIgnoreCase);
 
