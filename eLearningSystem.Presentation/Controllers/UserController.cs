@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared.DataTransferObjects;
@@ -90,19 +89,5 @@ namespace eLearningSystem.Presentation.Controllers
 
             return response;
         }
-
-        [HttpPost("upload-avatar")]
-        [Authorize]
-        public async Task<IActionResult> UploadAvatar([FromForm] IFormFile file)
-        {
-            var userId = User.FindFirstValue("id");
-            if (userId is null)
-                return BadRequest(new ResponseDto(["Cannot get user id"]));
-
-            IActionResult response = await _service.UserService.UploadAvatarAsync(userId, file);
-
-            return response;
-        }
-
     }
 }
