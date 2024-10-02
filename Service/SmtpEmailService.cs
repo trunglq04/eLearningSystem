@@ -18,7 +18,7 @@ namespace Service
 
         public async Task SendPasswordResetEmailAsync(string userEmail, string userName, string token)
         {
-            var resetPasswordUrl = $"{_configuration["JwtSettings:ValidAudience"]}/reset-password?email={userEmail}&token={token}";
+            var resetPasswordUrl = $"{_configuration["JwtSettings:ValidAudience"]}/reset-password?email={userEmail}&token={Uri.EscapeDataString(token)}";
 
             var body = GenerateHtmlBody(userName, resetPasswordUrl);
 
@@ -26,10 +26,10 @@ namespace Service
         }
         public async Task SendConfirmEmailAsync(string userEmail, string token)
         {
-            var resetPasswordUrl = $"{_configuration["JwtSettings:ValidAudience"]}/confirm-email?email={userEmail}&token={token}";
+            var resetPasswordUrl = $"{_configuration["JwtSettings:ValidAudience"]}/confirm-email?email={userEmail}&token={Uri.EscapeDataString(token)}";
 
             var body = GenerateConfirmEmailHtmlBody(userEmail, resetPasswordUrl);
-
+            
             await SendEmailAsync(userEmail, subject: "Xác thực email", body);
         }
         public async Task SendEmailAsync(string toEmail, string subject, string body)

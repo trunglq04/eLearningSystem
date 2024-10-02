@@ -61,7 +61,7 @@ namespace eLearningSystem.Presentation.Controllers
 
             if (HttpContext.User.Identity is ClaimsIdentity identity)
             {
-                email = identity.FindFirst(ClaimTypes.Name).Value;
+                email = identity.FindFirst(ClaimTypes.Email).Value;
             }
 
             if (!await _service.AuthenticationService.IsUserEmailExist(new(email)))
