@@ -28,16 +28,22 @@ namespace Service
             _emailService = emailService;
         }
 
-        public async Task<bool> ValidateUser(LoginRequestDto loginUser)
+        public async Task<SignInResult> ValidateUser(LoginRequestDto loginUser)
         {
-            var result = await _signInManager.PasswordSignInAsync(loginUser.UserName, loginUser.Password, isPersistent: false, lockoutOnFailure: true);
+            var signInResult = await _signInManager.PasswordSignInAsync(loginUser.UserName, loginUser.Password, isPersistent: false, lockoutOnFailure: true);
 
-            if (result.Succeeded)
+            if (signInResult.Succeeded)
             {
                 _user = await _userManager.FindByNameAsync(loginUser.UserName);
-                return true;
+                return signInResult;
             }
-            return false;
+
+            var user = await _userManager.FindByNameAsync(loginUser.UserName);
+            if (user is null || !await _userManager.CheckPasswordAsync(user, loginUser.Password))
+                return SignInResult.Failed; // Username or password is incorrect
+
+            // Email not confirmed
+            return SignInResult.NotAllowed; ;
         }
 
         public async Task<bool> IsUserEmailExist(ForgotPasswordRequestDto request)
@@ -124,7 +130,6 @@ namespace Service
             if (!identityResult.Succeeded) return identityResult;
 
             identityResult = await _userManager.AddToRoleAsync(user,  role);
-
             return identityResult;
         }
 
@@ -135,7 +140,8 @@ namespace Service
             if (user is null)
                 return IdentityResult.Failed(new IdentityError { Description = "Invalid information" });
 
-            return await _userManager.ConfirmEmailAsync(user!, token);
+            var identityResult = await _userManager.ConfirmEmailAsync(user, token);
+            return identityResult;
         }
 
         public async Task SendConfirmEmail(string email)

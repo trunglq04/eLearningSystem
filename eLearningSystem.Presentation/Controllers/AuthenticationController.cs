@@ -33,6 +33,7 @@ namespace eLearningSystem.Presentation.Controllers
                 return BadRequest(new ResponseDto(error));
             }
         }
+
         [HttpPost("confirm-email")]
         public async Task<IActionResult> ConfirmEmail([FromBody] ConfirmEmailRequestDto request)
         {
@@ -54,11 +55,21 @@ namespace eLearningSystem.Presentation.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Authenticate([FromBody] LoginRequestDto user)
         {
-            if (!await _service.AuthenticationService.ValidateUser(user))
-                return Unauthorized(new ResponseDto(["Login failed! Wrong email or password."]));
+            var result = await _service.AuthenticationService.ValidateUser(user);
 
-            var tokenDto = await _service.AuthenticationService.CreateToken(populateExp: true);
-            return Ok(new ResponseDto(["Login successfully!"], tokenDto));
+            if (result.Succeeded)
+            {
+                var tokenDto = await _service.AuthenticationService.CreateToken(populateExp: true);
+                return Ok(new ResponseDto(["Login successfully!"], tokenDto));
+            }
+            else if (result.IsNotAllowed)
+            {
+                return BadRequest(new ResponseDto(["Email is not confirmed. Please check your email to confirm."]));
+            }
+            else
+            {
+                return BadRequest(new ResponseDto(["Invalid username or password."]));
+            }
         }
 
     }
