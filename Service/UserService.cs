@@ -29,5 +29,25 @@ namespace Service
             var userReturn = _mapper.Map<UserRequestDto>(user);
             return userReturn;
         }
+
+        public async Task<(UserRequestDto, IdentityResult)> UpdateUser(UserRequestDto request, string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            if (DateTime.TryParse(request.DateOfBirth, out var date))
+            {
+                user.DateOfBirth = date;
+            }
+            user.FullName = request.FullName ?? user.FullName;
+            user.Email = request.Email ?? user.Email;
+            user.Image = request.Image ?? user.Image;
+
+            user.Gender = string.Equals(request.Gender, "male", StringComparison.OrdinalIgnoreCase);
+
+            var result = await _userManager.UpdateAsync(user);
+
+            var userReturn = _mapper.Map<UserRequestDto>(user);
+
+            return (userReturn, result);
+        }
     }
 }

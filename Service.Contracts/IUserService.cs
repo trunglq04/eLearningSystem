@@ -1,4 +1,4 @@
-﻿using Entities.Models;
+﻿using Microsoft.AspNetCore.Identity;
 using Shared.DataTransferObjects;
 using System;
 using System.Collections.Generic;
@@ -11,5 +11,6 @@ namespace Service.Contracts
     public interface IUserService
     {
         public Task<UserRequestDto> GetUser(string id);
+        public Task<(UserRequestDto, IdentityResult)> UpdateUser(UserRequestDto request, string id);
     }
 }
