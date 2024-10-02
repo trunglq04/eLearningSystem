@@ -19,10 +19,11 @@ namespace eLearningSystem.Presentation.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterRequestDto registerUserDto)
         {
+
             IdentityResult result = await _service.AuthenticationService.CreateUser(registerUserDto, "Learner");
             if (result.Succeeded)
             {
-               await _service.AuthenticationService.SendConfirmEmail(registerUserDto.UserName);
+                await _service.AuthenticationService.SendConfirmEmail(registerUserDto.UserName);
                 
                 return Ok(new ResponseDto(["User registered successfully!"]));
             }

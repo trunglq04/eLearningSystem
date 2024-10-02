@@ -1,4 +1,5 @@
 using eLearningSystem.API.Extensions;
+using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,7 +9,6 @@ builder.Services.ConfigureCors(builder.Configuration);
 builder.Services.ConfigureIISIntegration();
 
 builder.Services.AddControllers()
-    .AddApplicationPart(typeof(eLearningSystem.Presentation.AssemblyReference).Assembly);
 
 builder.Services.ConfigureSqlContext(builder.Configuration);
 builder.Services.ConfigureRepositoryManager();

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Shared.DataTransferObjects
 {
-    public record RegisterRequestDto 
+    public record RegisterRequestDto
     {
         [EmailAddress(ErrorMessage = "Please enter a valid email address.")]
         public string UserName { get; init; }
