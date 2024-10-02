@@ -72,7 +72,7 @@ namespace eLearningSystem.Presentation.Controllers
                 return BadRequest(new ResponseDto(error));
             }
 
-            return Ok(new ResponseDto([$"Update user have id {userId} successfully"], user));
+            return Ok(new ResponseDto([$"Update user have id {user.FullName} successfully"], user));
 
         }
 
