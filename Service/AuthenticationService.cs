@@ -38,7 +38,13 @@ namespace Service
                 _user = await _userManager.FindByNameAsync(loginUser.UserName);
                 return signInResult;
             }
-            return false;
+
+            var user = await _userManager.FindByNameAsync(loginUser.UserName);
+            if (user is null || !await _userManager.CheckPasswordAsync(user, loginUser.Password))
+                return SignInResult.Failed; // Username or password is incorrect
+
+            // Email not confirmed
+            return SignInResult.NotAllowed ;
         }
 
         public async Task<bool> IsUserEmailExist(ForgotPasswordRequestDto request)
