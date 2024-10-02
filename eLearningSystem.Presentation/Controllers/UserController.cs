@@ -38,7 +38,7 @@ namespace eLearningSystem.Presentation.Controllers
             return Ok(new ResponseDto([$"Get user id {userId} successfully"], user));
         }
         [HttpGet("{id}", Name = "GetUserById")]
-        [Authorize]
+        [Authorize(Roles ="Admin")]
         public async Task<IActionResult> GetUserById(string id)
         {
 
