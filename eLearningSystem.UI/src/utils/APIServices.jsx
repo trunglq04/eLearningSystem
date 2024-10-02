@@ -49,3 +49,21 @@ export const changePassword = async ({ newPassword, confirmNewPassword }) => {
     { headers: getHeader() }
   );
 };
+
+export const getUser = async () => {
+  return client.get("/user", { headers: getHeader() });
+};
+
+export const updateProfile = async (data) => {
+  return client.post(
+    "/user",
+    {
+      email: data.email,
+      fullName: data.fullname,
+      dateOfBirth: data.dob,
+      gender: data.gender,
+      phoneNumber: data.phone,
+    },
+    { headers: getHeader() }
+  );
+};

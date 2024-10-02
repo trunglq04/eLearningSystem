@@ -1,8 +1,9 @@
-import React, { useState } from "react";
-import Header from "../components/Header";
+import React, { useEffect, useState } from "react";
 import Footer from "../components/Footer";
-import { UserCircleIcon } from "@heroicons/react/20/solid";
+import Header from "../components/Header";
 import ChangePassword from "./ChangePassword";
+import { getUser, updateProfile } from "../utils/APIServices";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function Profile() {
   const [userInfo, setUserInfo] = useState({
@@ -17,12 +18,53 @@ export default function Profile() {
     phone: "",
     fullname: "",
     dob: "",
+    gender: "",
   });
+
+  const [avatar, setAvatar] = useState(null);
+
+  const [isNewAvatar, setIsNewAvatar] = useState(false);
+
+  const [isUpdate, setIsUpdate] = useState(false);
 
   const emailRegex = /^[\w.-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/;
   const dateRegex = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/(19|20)\d\d$/;
 
   const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await getUser();
+        setUserInfo({
+          email: response.data.email == "None" ? "" : response.data.email,
+          phone:
+            response.data.phoneNumber == "None"
+              ? ""
+              : response.data.phoneNumber,
+          fullname:
+            response.data.fullName == "None" ? "" : response.data.fullName,
+          dob:
+            response.data.dateOfBirth == "None"
+              ? ""
+              : response.data.dateOfBirth,
+          gender: response.data.gender == "None" ? "" : response.data.gender,
+        });
+        setAvatar(response.data.image == "None" ? null : response.data.image);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchUser();
+  }, []);
+
+  const formatDate = (dateStr) => {
+    const date = new Date(dateStr);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are 0-based, add 1 and pad with 0
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -30,11 +72,28 @@ export default function Profile() {
       ...prevInfo,
       [name]: value,
     }));
+    setIsUpdate(true);
   };
 
-  const handleSubmit = (e) => {
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setAvatar(reader.result);
+        setIsNewAvatar(true);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleSave = () => {
+    setIsNewAvatar(false);
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (userInfo.email === "") {
+    if (userInfo.email.trim() === "") {
       setError((prevError) => ({ ...prevError, email: "Email is required" }));
     } else if (!userInfo.email.match(emailRegex)) {
       setError((prevError) => ({
@@ -50,8 +109,22 @@ export default function Profile() {
         ...prevError,
         fullname: "No more than 255 characters",
       }));
+    } else if (userInfo.fullname.trim() === "") {
+      setError((prevError) => ({
+        ...prevError,
+        fullname: "Fullname is required",
+      }));
     } else {
       setError((prevError) => ({ ...prevError, fullname: "" }));
+    }
+
+    if (userInfo.gender.trim() === "") {
+      setError((prevError) => ({
+        ...prevError,
+        gender: "Gender is required",
+      }));
+    } else {
+      setError((prevError) => ({ ...prevError, gender: "" }));
     }
 
     if (userInfo.phone.length > 15) {
@@ -59,17 +132,42 @@ export default function Profile() {
         ...prevError,
         phone: "No more than 10 characters",
       }));
+    } else if (userInfo.phone.trim() === "") {
+      setError((prevError) => ({
+        ...prevError,
+        phone: "Phone number is required",
+      }));
     } else {
       setError((prevError) => ({ ...prevError, phone: "" }));
     }
 
-    if (userInfo.dob.match(dateRegex)) {
+    if (userInfo.dob.trim() === "") {
       setError((prevError) => ({
         ...prevError,
-        dob: "Please provide a valid date",
+        dob: "Date of birth is required",
       }));
+    } else {
+      setError((prevError) => ({ ...prevError, dob: "" }));
     }
-    console.log(userInfo);
+
+    if (
+      userInfo.email.trim() !== "" &&
+      userInfo.fullname.trim() !== "" &&
+      userInfo.dob.trim() !== "" &&
+      userInfo.phone.trim() !== "" &&
+      userInfo.gender.trim() !== ""
+    ) {
+      try {
+        const response = await updateProfile(userInfo);
+        if (response) {
+          setIsUpdate(false);
+          // toast.success(response.message[0]);
+          toast.success("Profile updated successfully");
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
   };
 
   const handleReset = () => {
@@ -87,22 +185,41 @@ export default function Profile() {
       dob: "",
     });
   };
-
   return (
     <div>
       <Header></Header>
+      <Toaster />
       <div className="grid grid-cols-2 py-16 px-10 h-full">
         <div className="border-r border-gray-900/10">
           <div className="flex justify-center align-middle h-full">
             <div className="mt-2 flex items-center flex-col gap-x-3">
-              <UserCircleIcon
-                aria-hidden="true"
-                className="h-52 w-52 text-gray-300"
-              />
+              <div className="relative mb-3">
+                {/* Avatar preview */}
+                <img
+                  src={
+                    avatar !== null ? avatar : "https://via.placeholder.com/150"
+                  }
+                  alt="User Avatar"
+                  className="w-52 h-52 rounded-full object-cover border-2 border-gray-300"
+                />
+              </div>
               <input
                 type="file"
+                accept="image/*"
+                onChange={handleFileChange}
                 className="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
               />
+
+              <div className="mt-5">
+                {isNewAvatar && (
+                  <button
+                    className="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600"
+                    onClick={handleSave}
+                  >
+                    Save
+                  </button>
+                )}
+              </div>
 
               <div className="mt-5">
                 <button
@@ -139,6 +256,7 @@ export default function Profile() {
                     id="fullname"
                     name="fullname"
                     type="text"
+                    placeholder="Your Fullname"
                     value={userInfo.fullname}
                     onChange={handleChange}
                     autoComplete="full-name"
@@ -164,9 +282,11 @@ export default function Profile() {
                     id="email"
                     name="email"
                     type="text"
+                    placeholder="Your Email"
                     value={userInfo.email}
                     onChange={handleChange}
                     autoComplete="email"
+                    readOnly
                     className="block w-full rounded-md border-0 px-3  py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
                   {error.email && (
@@ -191,10 +311,14 @@ export default function Profile() {
                     onChange={handleChange}
                     className="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
                   >
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                    <option value="other">Other</option>
+                    <option value="">--</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
                   </select>
+                  {error.gender && (
+                    <p className="mt-1 text-pink-600 text-sm">{error.gender}</p>
+                  )}
                 </div>
               </div>
 
@@ -209,10 +333,11 @@ export default function Profile() {
                   <input
                     id="phone"
                     name="phone"
-                    type="number"
+                    type="text"
                     value={userInfo.phone}
                     onChange={handleChange}
                     autoComplete="phone"
+                    placeholder="Your Phone Number"
                     className="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
                   {error.phone && (
@@ -233,7 +358,7 @@ export default function Profile() {
                     id="dob"
                     name="dob"
                     type="date"
-                    value={userInfo.dob}
+                    value={formatDate(userInfo.dob)}
                     onChange={handleChange}
                     autoComplete="dob"
                     className="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -246,18 +371,14 @@ export default function Profile() {
             </div>
           </div>
           <div className="mt-6 flex items-center justify-center gap-x-6">
-            <button
-              type="reset"
-              className="text-sm font-semibold leading-6 text-gray-900"
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            >
-              Save
-            </button>
+            {isUpdate && (
+              <button
+                type="submit"
+                className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              >
+                Save
+              </button>
+            )}
           </div>
         </form>
       </div>
