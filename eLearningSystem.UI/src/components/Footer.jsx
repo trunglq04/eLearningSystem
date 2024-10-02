@@ -2,14 +2,14 @@ import React from "react";
 
 export default function Footer() {
   return (
-    <footer className="bg-gray-900 text-gray-400 py-12">
+    <footer className="bg-indigo-900 text-gray-400 py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between">
           <div>
             <img
-              src="https://placehold.co/40x40"
+              src="https://png.pngtree.com/template/20190316/ourmid/pngtree-books-logo-image_79143.jpg"
               alt="Company Logo"
-              className="mb-4"
+              className="h-20 w-20"
             />
             <p className="mb-4">
               Making the world a better place through constructing elegant

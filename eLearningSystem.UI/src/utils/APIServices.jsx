@@ -1,5 +1,13 @@
 import client from "./axiosClient";
 
+export const getHeader = () => {
+  const token = JSON.parse(localStorage.getItem("accessToken"));
+  return {
+    Authorization: `Bearer ${token}`,
+    "Content-Type": "application/json",
+  };
+};
+
 export const registerLearner = async (data) => {
   return client.post("/auth/register", {
     UserName: data.email,
@@ -29,4 +37,15 @@ export const resetPassword = async ({ email, password, resetToken }) => {
     NewPassword: password,
     ResetToken: resetToken,
   });
+};
+
+export const changePassword = async ({ newPassword, confirmNewPassword }) => {
+  return client.post(
+    "/password/change-password",
+    {
+      NewPassword: newPassword,
+      ConfirmPassword: confirmNewPassword,
+    },
+    { headers: getHeader() }
+  );
 };

@@ -31,6 +31,7 @@ import {
 } from "@heroicons/react/20/solid";
 import { useNavigate } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa";
+import elLogo from "../assets/elLogo.png";
 
 const products = [
   {
@@ -81,7 +82,7 @@ export default function Header() {
   };
 
   return (
-    <header className="bg-gray-900">
+    <header className="bg-indigo-500">
       <nav
         aria-label="Global"
         className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8"
@@ -94,11 +95,7 @@ export default function Header() {
             className="-m-1.5 p-1.5 cursor-pointer"
           >
             <span className="sr-only">Your Company</span>
-            <img
-              alt=""
-              src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-              className="h-8 w-auto"
-            />
+            <img alt="" src={elLogo} className="h-8 w-auto" />
           </a>
         </div>
         <div className="flex lg:hidden">
@@ -113,8 +110,8 @@ export default function Header() {
         </div>
         <PopoverGroup className="hidden lg:flex lg:gap-x-12">
           <Popover className="relative">
-            <PopoverButton className="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-400 hover:text-gray-200">
-              Product
+            <PopoverButton className="flex items-center gap-x-1 text-sm font-semibold leading-6 text-white hover:text-gray-200">
+              Courses
               <ChevronDownIcon
                 aria-hidden="true"
                 className="h-5 w-5 flex-none text-gray-300"
@@ -150,41 +147,14 @@ export default function Header() {
                   </div>
                 ))}
               </div>
-              <div className="grid grid-cols-2 divide-x divide-gray-900/5 bg-gray-50">
-                {callsToAction.map((item) => (
-                  <a
-                    key={item.name}
-                    href={item.href}
-                    className="flex items-center justify-center gap-x-2.5 p-3 text-sm font-semibold leading-6 text-gray-900 hover:bg-gray-100"
-                  >
-                    <item.icon
-                      aria-hidden="true"
-                      className="h-5 w-5 flex-none text-gray-400"
-                    />
-                    {item.name}
-                  </a>
-                ))}
-              </div>
             </PopoverPanel>
           </Popover>
 
           <a
             href="#"
-            className="text-sm font-semibold leading-6 text-gray-400 hover:text-gray-200"
+            className="text-sm font-semibold leading-6 text-white hover:text-gray-200"
           >
             Features
-          </a>
-          <a
-            href="#"
-            className="text-sm font-semibold leading-6 text-gray-400 hover:text-gray-200"
-          >
-            Marketplace
-          </a>
-          <a
-            href="#"
-            className="text-sm font-semibold leading-6 text-gray-400 hover:text-gray-200"
-          >
-            Company
           </a>
         </PopoverGroup>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
@@ -233,7 +203,7 @@ export default function Header() {
                 onClick={() => {
                   nav("/login");
                 }}
-                className="text-sm font-semibold leading-6 text-gray-400 cursor-pointer hover:text-gray-200"
+                className="text-sm font-semibold leading-6 text-white cursor-pointer hover:text-gray-300"
               >
                 Log in <span aria-hidden="true">&rarr;</span>
               </a>
@@ -271,7 +241,7 @@ export default function Header() {
               <div className="space-y-2 py-6">
                 <Disclosure as="div" className="-mx-3">
                   <DisclosureButton className="group flex w-full items-center justify-between rounded-lg py-2 pl-3 pr-3.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">
-                    Product
+                    Courses
                     <ChevronDownIcon
                       aria-hidden="true"
                       className="h-5 w-5 flex-none group-data-[open]:rotate-180"
