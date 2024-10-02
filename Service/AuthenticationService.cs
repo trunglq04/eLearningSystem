@@ -1,4 +1,5 @@
 ﻿using Entities.Models;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -28,16 +29,22 @@ namespace Service
             _emailService = emailService;
         }
 
-        public async Task<bool> ValidateUser(LoginRequestDto loginUser)
+        public async Task<SignInResult> ValidateUser(LoginRequestDto loginUser)
         {
-            var result = await _signInManager.PasswordSignInAsync(loginUser.UserName, loginUser.Password, isPersistent: false, lockoutOnFailure: true);
+            var signInResult = await _signInManager.PasswordSignInAsync(loginUser.UserName, loginUser.Password, isPersistent: false, lockoutOnFailure: true);
 
-            if (result.Succeeded)
+            if (signInResult.Succeeded)
             {
                 _user = await _userManager.FindByNameAsync(loginUser.UserName);
-                return true;
+                return signInResult;
             }
-            return false;
+
+            var user = await _userManager.FindByNameAsync(loginUser.UserName);
+            if (user is null || !await _userManager.CheckPasswordAsync(user, loginUser.Password))
+                return SignInResult.Failed; // Username or password is incorrect
+
+            // Email not confirmed
+            return SignInResult.NotAllowed ;
         }
 
         public async Task<bool> IsUserEmailExist(ForgotPasswordRequestDto request)
@@ -94,11 +101,12 @@ namespace Service
             var claims = new List<Claim>
             {
                 new Claim("email", _user.UserName),
+                new Claim("id", _user.Id.ToString()),
             };
 
             var roles = await _userManager.GetRolesAsync(_user);
             claims.AddRange(roles.Select(role => new Claim("role", role)));
-
+            
             return claims;
         }
 

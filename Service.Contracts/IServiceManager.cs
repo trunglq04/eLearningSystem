@@ -6,5 +6,6 @@
         IEmailService EmailService { get; }
         IPasswordService PasswordService { get; }
         
+        IUserService UserService { get; }
     }
 }

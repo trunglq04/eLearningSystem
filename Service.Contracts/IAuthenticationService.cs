@@ -1,11 +1,12 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Entities.Models;
+using Microsoft.AspNetCore.Identity;
 using Shared.DataTransferObjects;
 
 namespace Service.Contracts
 {
     public interface IAuthenticationService
     {
-        Task<bool> ValidateUser(LoginRequestDto userForAuth);
+        Task<SignInResult> ValidateUser(LoginRequestDto userForAuth);
         Task<bool> IsUserEmailExist(ForgotPasswordRequestDto request);
         Task<TokenDto?> CreateToken(bool populateExp);
 
