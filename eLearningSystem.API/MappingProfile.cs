@@ -16,8 +16,10 @@ namespace eLearningSystem.API
                 opt => opt.MapFrom(x => x.Gender.HasValue ? (x.Gender.Value ? "Male" : "Female") : "None"))
             .ForMember(c => c.Image,
                 opt => opt.MapFrom(x => x.Image ?? "None"))
+            .ForMember(c => c.PhoneNumber,
+                opt => opt.MapFrom(x => x.PhoneNumber ?? "None"))
             .ForMember(c => c.FullName,
-                opt => opt.MapFrom(x => x.FullName ?? "None")); ;
+                opt => opt.MapFrom(x => x.FullName ?? "None")); 
             
 
         }

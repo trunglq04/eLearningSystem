@@ -12,7 +12,9 @@ namespace Shared.DataTransferObjects
         public string? FullName { get; init; } 
         public string? DateOfBirth { get; init; }
         public string? Gender { get; init; }
+        public string? PhoneNumber { get; init; }
         public string? Image { get; init; }
+
 
     }
 }
