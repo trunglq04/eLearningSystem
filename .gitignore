@@ -3,3 +3,4 @@ eLearningSystem.API/appsettings.json
 eLearningSystem.API/obj/*
 eLearningSystem.API/bin/*
 eLearningSystem.API/.vs/
+eLearningSystem.UI/src/utils/AxiosClient.jsx
