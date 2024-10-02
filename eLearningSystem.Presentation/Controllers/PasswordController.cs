@@ -1,5 +1,4 @@
-﻿using Entities.Models;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared.DataTransferObjects;
@@ -57,7 +56,6 @@ namespace eLearningSystem.Presentation.Controllers
         public async Task<IActionResult> ChangePassword([FromBody]  ChangePasswordDto request)
         {
             string email = string.Empty;
-
 
             if (HttpContext.User.Identity is ClaimsIdentity identity)
             {

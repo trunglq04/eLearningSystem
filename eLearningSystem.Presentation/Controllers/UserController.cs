@@ -45,6 +45,7 @@ namespace eLearningSystem.Presentation.Controllers
             var user = await _service.UserService.GetUser(id);
 
             return Ok(new ResponseDto([$"Get user id {id} successfully"], user));
+
         }
         [HttpPost]
         [Authorize]
@@ -72,6 +73,7 @@ namespace eLearningSystem.Presentation.Controllers
             }
 
             return Ok(new ResponseDto([$"Update user have id {userId} successfully"], user));
+
         }
 
     }

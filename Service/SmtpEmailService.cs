@@ -29,7 +29,7 @@ namespace Service
             var resetPasswordUrl = $"{_configuration["JwtSettings:ValidAudience"]}/confirm-email?email={userEmail}&token={Uri.EscapeDataString(token)}";
 
             var body = GenerateConfirmEmailHtmlBody(userEmail, resetPasswordUrl);
-            
+
             await SendEmailAsync(userEmail, subject: "Xác thực email", body);
         }
         public async Task SendEmailAsync(string toEmail, string subject, string body)
