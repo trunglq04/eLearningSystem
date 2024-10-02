@@ -23,7 +23,7 @@ namespace Service
             _passwordService = new Lazy<IPasswordService>(() =>
                 new PasswordService(userManager, EmailService));
             _userService = new Lazy<IUserService>(() =>
-                new UserService(userManager));
+                new UserService(userManager, mapper));
         }
 
         public IAuthenticationService AuthenticationService => _authenticationService.Value;
