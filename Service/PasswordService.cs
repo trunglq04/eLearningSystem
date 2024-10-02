@@ -51,9 +51,9 @@ namespace Service
 
         public async Task<IdentityResult> ResetPassword(string email , ChangePasswordDto request)
         {
-            var resetToken = await GeneratePasswordResetTokenAsync(email);
-            ApplicationUser user = await _userManager.FindByEmailAsync(email);
-            IdentityResult result = await _userManager.ResetPasswordAsync(user!, resetToken!, request.NewPassword);
+            var user = await _userManager.FindByEmailAsync(email);
+            var pwResetToken = await _userManager.GeneratePasswordResetTokenAsync(user!);
+            IdentityResult result = await _userManager.ResetPasswordAsync(user!, pwResetToken!, request.NewPassword);
             return result;
         }
     }

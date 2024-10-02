@@ -29,8 +29,10 @@ namespace Service
             _userService = new Lazy<IUserService>(() =>
                 new UserService(userManager, mapper));
 
+
             _mediaService = new Lazy<IMediaService>(() =>
                 new MediaService(configuration));
+
         }
 
         public IAuthenticationService AuthenticationService => _authenticationService.Value;

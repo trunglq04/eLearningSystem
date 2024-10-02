@@ -4,6 +4,12 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Service.Contracts;
 using Shared.DataTransferObjects;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
 
 namespace Service
 {
@@ -25,12 +31,25 @@ namespace Service
             return userReturn;
         }
 
-        //public async Task<UserRequestDto> UpdateUser(UserRequestDto request)
-        //{
-        //    var user = _mapper.Map<ApplicationUser>(request);
-        //     user = await  _userManager.UpdateAsync(user);
-        //    var userReturn = _mapper.Map<UserRequestDto>(user);
-        //    return user;
-        //}
+        public async Task<(UserRequestDto, IdentityResult)> UpdateUser(UserRequestDto request, string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            if (DateTime.TryParse(request.DateOfBirth, out var date))
+            {
+                user.DateOfBirth = date;
+            }
+            user.FullName = request.FullName ?? user.FullName;
+            user.Email = request.Email ?? user.Email;
+            user.Image = request.Image ?? user.Image;
+
+            user.Gender = string.Equals(request.Gender, "male", StringComparison.OrdinalIgnoreCase);
+
+            var result = await _userManager.UpdateAsync(user);
+
+            var userReturn = _mapper.Map<UserRequestDto>(user);
+
+            return (userReturn, result);
+        }
+
     }
 }

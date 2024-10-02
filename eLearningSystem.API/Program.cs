@@ -8,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.ConfigureCors(builder.Configuration);
 builder.Services.ConfigureIISIntegration();
 
+
 builder.Services.AddControllers()
     .AddApplicationPart(typeof(eLearningSystem.Presentation.AssemblyReference).Assembly)
     .ConfigureApiBehaviorOptions(options =>
@@ -23,6 +24,7 @@ builder.Services.AddControllers()
             return new BadRequestObjectResult(new { Message = errors });
         };
     });
+
 
 builder.Services.ConfigureSqlContext(builder.Configuration);
 builder.Services.ConfigureRepositoryManager();
