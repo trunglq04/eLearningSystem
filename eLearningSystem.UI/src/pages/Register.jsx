@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import banner from "../assets/banner.jpg";
 import { motion as m } from "framer-motion";
 import { registerLearner } from "../utils/APIServices";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -12,6 +13,8 @@ export default function Register() {
     password: "",
     confirmPassword: "",
   });
+  const [isToggle, setIsToggle] = useState(false);
+  const [isToggleConfirmPass, setIsToggleConfirmPass] = useState(false);
 
   const [loading, setLoading] = useState(false);
 
@@ -104,17 +107,32 @@ export default function Register() {
                   Password
                 </label>
               </div>
-              <div className="mt-2">
+              <div className="mt-2 relative">
                 <input
                   id="password"
                   name="password"
-                  type="password"
+                  type={isToggle ? "text" : "password"}
                   onChange={handleInputChange}
                   required
                   autoComplete="current-password"
                   value={registerUser.password}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
+                {!isToggle ? (
+                  <>
+                    <FaEye
+                      onClick={() => setIsToggle(!isToggle)}
+                      className="size-5 absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 cursor-pointer"
+                    />
+                  </>
+                ) : (
+                  <>
+                    <FaEyeSlash
+                      onClick={() => setIsToggle(!isToggle)}
+                      className="size-5 absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 cursor-pointer"
+                    />
+                  </>
+                )}
               </div>
             </div>
 
@@ -127,17 +145,36 @@ export default function Register() {
                   Confirm Password
                 </label>
               </div>
-              <div className="mt-2">
+              <div className="mt-2 relative">
                 <input
                   id="confirmPassword"
                   name="confirmPassword"
-                  type="password"
+                  type={isToggleConfirmPass ? "text" : "password"}
                   onChange={handleInputChange}
                   required
                   autoComplete="current-password"
                   value={registerUser.confirmPassword}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
+                {!isToggleConfirmPass ? (
+                  <>
+                    <FaEye
+                      onClick={() =>
+                        setIsToggleConfirmPass(!isToggleConfirmPass)
+                      }
+                      className="size-5 absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 cursor-pointer"
+                    />
+                  </>
+                ) : (
+                  <>
+                    <FaEyeSlash
+                      onClick={() =>
+                        setIsToggleConfirmPass(!isToggleConfirmPass)
+                      }
+                      className="size-5 absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 cursor-pointer"
+                    />
+                  </>
+                )}
               </div>
             </div>
 

@@ -5,13 +5,17 @@ import { useNavigate } from "react-router-dom";
 import banner from "../assets/banner.jpg";
 import { login } from "../utils/APIServices";
 import toast, { Toaster } from "react-hot-toast";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 export default function Login() {
   const nav = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState({});
+  const [isToggle, setIsToggle] = useState(false);
+
   const emailRegex = /^[\w.-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/;
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     let newErrors = { ...error };
@@ -53,8 +57,8 @@ export default function Login() {
           nav("/");
         }, 1000);
       } catch (err) {
-        toast.error(err.response.data.message[0]);
         console.log(err);
+        toast.error(err.response.data.message[0]);
       }
     }
   };
@@ -124,11 +128,11 @@ export default function Login() {
                       Password
                     </label>
                   </div>
-                  <div className="mt-2">
+                  <div className="mt-2 relative">
                     <input
                       id="password"
                       name="password"
-                      type="password"
+                      type={isToggle ? "text" : "password"}
                       autoComplete="current-password"
                       className={
                         !error.password
@@ -137,6 +141,22 @@ export default function Login() {
                       }
                       onChange={(e) => setPassword(e.target.value)}
                     />
+                    {!isToggle ? (
+                      <>
+                        <FaEye
+                          onClick={() => setIsToggle(!isToggle)}
+                          className="size-5 absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 cursor-pointer"
+                        />
+                      </>
+                    ) : (
+                      <>
+                        <FaEyeSlash
+                          onClick={() => setIsToggle(!isToggle)}
+                          className="size-5 absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 cursor-pointer"
+                        />
+                      </>
+                    )}
+
                     {error.password && (
                       <p className="mt-1 text-pink-600 text-sm">
                         {error.password}

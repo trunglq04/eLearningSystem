@@ -3,17 +3,20 @@ import banner from "../assets/banner.jpg";
 import { useNavigate } from "react-router-dom";
 import { resetPassword } from "../utils/APIServices";
 import toast, { Toaster } from "react-hot-toast";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 export default function ResetPassword() {
   const nav = useNavigate();
   const [confirmPass, setConfirmPass] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState({});
+  const [isToggle, setIsToggle] = useState(false);
+  const [isToggleConfirmPass, setIsToggleConfirmPass] = useState(false);
   const queryParams = new URLSearchParams(window.location.search);
 
   const resetToken = queryParams.get("token");
   const email = queryParams.get("email");
-  console.log(typeof resetToken);
+  console.log(resetToken);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -42,6 +45,9 @@ export default function ResetPassword() {
         console.log(email, password, resetToken);
         const data = await resetPassword({ email, password, resetToken });
         toast.success(data.message[0]);
+        setTimeout(() => {
+          nav("/login");
+        });
         console.log(data);
       } catch (err) {
         toast.error(err.response.data.message[0]);
@@ -85,7 +91,7 @@ export default function ResetPassword() {
                     <input
                       id="password"
                       name="password"
-                      type="password"
+                      type={isToggle ? "text" : "password"}
                       className={
                         !error.password
                           ? "block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -93,6 +99,21 @@ export default function ResetPassword() {
                       }
                       onChange={(e) => setPassword(e.target.value)}
                     />
+                    {!isToggle ? (
+                      <>
+                        <FaEye
+                          onClick={() => setIsToggle(!isToggle)}
+                          className="size-5 absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 cursor-pointer"
+                        />
+                      </>
+                    ) : (
+                      <>
+                        <FaEyeSlash
+                          onClick={() => setIsToggle(!isToggle)}
+                          className="size-5 absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 cursor-pointer"
+                        />
+                      </>
+                    )}
                     {error.password && (
                       <p className="mt-2 text-pink-600 text-sm">
                         {error.password}
@@ -112,7 +133,7 @@ export default function ResetPassword() {
                     <input
                       id="confirm-password"
                       name="confirm-password"
-                      type="password"
+                      type={isToggleConfirmPass ? "text" : "password"}
                       className={
                         !error.confirmPass
                           ? "block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -120,6 +141,25 @@ export default function ResetPassword() {
                       }
                       onChange={(e) => setConfirmPass(e.target.value)}
                     />
+                    {!isToggleConfirmPass ? (
+                      <>
+                        <FaEye
+                          onClick={() =>
+                            setIsToggleConfirmPass(!isToggleConfirmPass)
+                          }
+                          className="size-5 absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 cursor-pointer"
+                        />
+                      </>
+                    ) : (
+                      <>
+                        <FaEyeSlash
+                          onClick={() =>
+                            setIsToggleConfirmPass(!isToggleConfirmPass)
+                          }
+                          className="size-5 absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 cursor-pointer"
+                        />
+                      </>
+                    )}
                     {error.confirmPass && (
                       <p className="mt-2 text-pink-600 text-sm">
                         {error.confirmPass}
