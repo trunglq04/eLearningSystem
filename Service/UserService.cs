@@ -24,6 +24,12 @@ namespace Service
             var userReturn = _mapper.Map<UserRequestDto>(user);
             return userReturn;
         }
+        public async Task<UserRequestDto> GetUser(string id)
+        {
+            var user =  await _userManager.FindByIdAsync(id);
+            var userReturn = _mapper.Map<UserRequestDto>(user);
+            return userReturn;
+        }
 
         //public async Task<UserRequestDto> UpdateUser(UserRequestDto request)
         //{
