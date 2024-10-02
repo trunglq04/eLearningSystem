@@ -5,13 +5,88 @@ import { UserCircleIcon } from "@heroicons/react/20/solid";
 import ChangePassword from "./ChangePassword";
 
 export default function Profile() {
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [fullname, setFullname] = useState("");
-  const [gender, setGender] = useState("");
-  const [dob, setDob] = useState("");
+  const [userInfo, setUserInfo] = useState({
+    email: "",
+    phone: "",
+    fullname: "",
+    gender: "",
+    dob: "",
+  });
+  const [error, setError] = useState({
+    email: "",
+    phone: "",
+    fullname: "",
+    dob: "",
+  });
+
+  const emailRegex = /^[\w.-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/;
+  const dateRegex = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/(19|20)\d\d$/;
 
   const [open, setOpen] = useState(false);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setUserInfo((prevInfo) => ({
+      ...prevInfo,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (userInfo.email === "") {
+      setError((prevError) => ({ ...prevError, email: "Email is required" }));
+    } else if (!userInfo.email.match(emailRegex)) {
+      setError((prevError) => ({
+        ...prevError,
+        email: "Please provide a valid email address.",
+      }));
+    } else {
+      setError((prevError) => ({ ...prevError, email: "" }));
+    }
+
+    if (userInfo.fullname.length > 255) {
+      setError((prevError) => ({
+        ...prevError,
+        fullname: "No more than 255 characters",
+      }));
+    } else {
+      setError((prevError) => ({ ...prevError, fullname: "" }));
+    }
+
+    if (userInfo.phone.length > 15) {
+      setError((prevError) => ({
+        ...prevError,
+        phone: "No more than 10 characters",
+      }));
+    } else {
+      setError((prevError) => ({ ...prevError, phone: "" }));
+    }
+
+    if (userInfo.dob.match(dateRegex)) {
+      setError((prevError) => ({
+        ...prevError,
+        dob: "Please provide a valid date",
+      }));
+    }
+    console.log(userInfo);
+  };
+
+  const handleReset = () => {
+    setUserInfo({
+      email: "",
+      phone: "",
+      fullname: "",
+      gender: "",
+      dob: "",
+    });
+    setError({
+      email: "",
+      phone: "",
+      fullname: "",
+      dob: "",
+    });
+  };
 
   return (
     <div>
@@ -24,12 +99,10 @@ export default function Profile() {
                 aria-hidden="true"
                 className="h-52 w-52 text-gray-300"
               />
-              <button
-                type="button"
+              <input
+                type="file"
                 className="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
-              >
-                Change
-              </button>
+              />
 
               <div className="mt-5">
                 <button
@@ -43,7 +116,11 @@ export default function Profile() {
             </div>
           </div>
         </div>
-        <form className="px-6 py-6">
+        <form
+          className="px-6 py-6"
+          onSubmit={handleSubmit}
+          onReset={handleReset}
+        >
           <div className="border-b border-gray-900/10 pb-12">
             <h2 className="text-3xl font-semibold leading-7 text-gray-900">
               Personal Information
@@ -59,12 +136,19 @@ export default function Profile() {
                 </label>
                 <div className="mt-2">
                   <input
-                    id="full-name"
-                    name="full-name"
+                    id="fullname"
+                    name="fullname"
                     type="text"
+                    value={userInfo.fullname}
+                    onChange={handleChange}
                     autoComplete="full-name"
                     className="block w-full rounded-md border-0 px-3  py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
+                  {error.fullname && (
+                    <p className="mt-1 text-pink-600 text-sm">
+                      {error.fullname}
+                    </p>
+                  )}
                 </div>
               </div>
 
@@ -79,10 +163,15 @@ export default function Profile() {
                   <input
                     id="email"
                     name="email"
-                    type="email"
+                    type="text"
+                    value={userInfo.email}
+                    onChange={handleChange}
                     autoComplete="email"
                     className="block w-full rounded-md border-0 px-3  py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
+                  {error.email && (
+                    <p className="mt-1 text-pink-600 text-sm">{error.email}</p>
+                  )}
                 </div>
               </div>
 
@@ -98,6 +187,8 @@ export default function Profile() {
                     id="gender"
                     name="gender"
                     autoComplete="gender"
+                    value={userInfo.gender}
+                    onChange={handleChange}
                     className="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
                   >
                     <option value="male">Male</option>
@@ -109,24 +200,29 @@ export default function Profile() {
 
               <div className="sm:col-span-3">
                 <label
-                  htmlFor="phone-number"
+                  htmlFor="phone"
                   className="block text-sm font-medium leading-6 text-gray-900"
                 >
                   Phone number
                 </label>
                 <div className="mt-2">
                   <input
-                    id="phone-number"
-                    name="phone-number"
-                    type="text"
-                    autoComplete="phone-number"
+                    id="phone"
+                    name="phone"
+                    type="number"
+                    value={userInfo.phone}
+                    onChange={handleChange}
+                    autoComplete="phone"
                     className="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
+                  {error.phone && (
+                    <p className="mt-1 text-pink-600 text-sm">{error.phone}</p>
+                  )}
                 </div>
               </div>
               <div className="col-span-full">
                 <label
-                  htmlFor="date-of-birth"
+                  htmlFor="dob"
                   className="block text-sm font-medium leading-6 text-gray-900"
                 >
                   Date of Birth
@@ -134,12 +230,17 @@ export default function Profile() {
 
                 <div className="mt-2">
                   <input
-                    id="date-of-birth"
-                    name="date-of-birth"
+                    id="dob"
+                    name="dob"
                     type="date"
-                    autoComplete="date-of-birth"
+                    value={userInfo.dob}
+                    onChange={handleChange}
+                    autoComplete="dob"
                     className="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
+                  {error.dob && (
+                    <p className="mt-1 text-pink-600 text-sm">{error.dob}</p>
+                  )}
                 </div>
               </div>
             </div>
