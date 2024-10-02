@@ -24,11 +24,10 @@ namespace Service
             var userReturn = _mapper.Map<UserRequestDto>(user);
             return userReturn;
         }
-        public async Task<UserRequestDto> GetUser(string id)
+
+        public Task<UserRequestDto> UpdateUser(UserRequestDto request)
         {
-            var user =  await _userManager.FindByIdAsync(id);
-            var userReturn = _mapper.Map<UserRequestDto>(user);
-            return userReturn;
+            throw new NotImplementedException();
         }
 
         //public async Task<UserRequestDto> UpdateUser(UserRequestDto request)
