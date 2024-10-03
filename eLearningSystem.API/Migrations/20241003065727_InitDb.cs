@@ -38,7 +38,7 @@ namespace eLearningSystem.API.Migrations
                     Gender = table.Column<bool>(type: "bit", nullable: true),
                     Image = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     RefreshToken = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    RefreshTokenExpirationTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    RefreshTokenExpiry = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -177,8 +177,8 @@ namespace eLearningSystem.API.Migrations
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "DateOfBirth", "Email", "EmailConfirmed", "FullName", "Gender", "Image", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "RefreshToken", "RefreshTokenExpirationTime", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { new Guid("c9d4c053-49b6-410c-bc78-2d54a9991870"), 0, "28ab92e9-8678-4e28-b857-fc4cbf6039b6", null, "admin@elearning.com", true, null, null, null, false, null, "ADMIN@ELEARNING.COM", "admin@elearning.com", "AQAAAAIAAYagAAAAEHB4AStanpqHMlyS+MWJrCe//VZOUNTNS2q3WKGVN1sqKVgqM6aHUnfGhNVWc+RwqQ==", null, false, null, null, "a5e2a87a-cbd8-4bea-a704-f4732f6e4284", false, "admin@elearning.com" });
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "DateOfBirth", "Email", "EmailConfirmed", "FullName", "Gender", "Image", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "RefreshToken", "RefreshTokenExpiry", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[] { new Guid("c9d4c053-49b6-410c-bc78-2d54a9991870"), 0, "2ca9c12a-450c-47c3-9fb4-fe51c379863e", null, "admin@elearning.com", true, null, null, null, false, null, "ADMIN@ELEARNING.COM", "admin@elearning.com", "AQAAAAIAAYagAAAAELKyxwEpsqmnGlBZogxFCgRGIKOsoy4jCkEUCVs5HCIH4HAnv3hCle2veqOwJFNQPg==", null, false, null, null, "0e6396d5-7575-4ed8-894a-ea9da63cb9f4", false, "admin@elearning.com" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",

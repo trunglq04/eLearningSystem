@@ -12,7 +12,7 @@ namespace Entities.Models
         public bool? Gender { get; set; }
         public string? Image { get; set; }
         public string? RefreshToken { get; set; }
-        public DateTime? RefreshTokenExpirationTime { get; set; }
+        public DateTime? RefreshTokenExpiry { get; set; }
     }
 
 }

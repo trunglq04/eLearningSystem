@@ -53,6 +53,30 @@ namespace Service
             return result;
         }
 
+        public async Task<bool> IsRefreshTokenValid(string userId, string refreshToken)
+        {
+            _user = await _userManager.FindByIdAsync(userId);
+
+            if (_user == null || _user.RefreshToken != refreshToken || _user.RefreshTokenExpiry <= DateTime.Now)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public async Task<string?> GetUserIdFromExpiredToken(string token)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var jwtToken = tokenHandler.ReadJwtToken(token);
+
+            if (jwtToken == null)
+                return null;
+
+            var userIdClaim = jwtToken.Claims.FirstOrDefault(claim => claim.Type == "id");
+            return userIdClaim?.Value;
+        }
+
         public async Task<TokenDto?> CreateToken(bool populateExp)
         {
             var accessToken = CreateJwtToken();
@@ -61,9 +85,10 @@ namespace Service
             _user!.RefreshToken = refreshToken;
 
             if (populateExp)
-                _user.RefreshTokenExpirationTime = DateTime.Now.AddDays(7);
+                _user.RefreshTokenExpiry = DateTime.Now.AddDays(7);
 
             await _userManager.UpdateAsync(_user);
+
             return new TokenDto
             {
                 AccessToken = accessToken,
@@ -161,5 +186,6 @@ namespace Service
             string token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             await _emailService.SendConfirmEmailAsync(email, token, role, password);
         }
+
     }
 }

@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared.DataTransferObjects;
@@ -19,7 +19,6 @@ namespace eLearningSystem.Presentation.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterRequestDto registerUserDto)
         {
-
             if (string.IsNullOrEmpty(registerUserDto.Password) || string.IsNullOrEmpty(registerUserDto.ConfirmPassword))
                 return BadRequest(new ResponseDto(["Password and confirm password are required."]));
             if(registerUserDto.Password != registerUserDto.ConfirmPassword)
@@ -56,7 +55,7 @@ namespace eLearningSystem.Presentation.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Authenticate([FromBody] LoginRequestDto user)
+        public async Task<IActionResult> Login([FromBody] LoginRequestDto user)
         {
             var result = await _service.AuthenticationService.ValidateUser(user);
 
@@ -75,5 +74,30 @@ namespace eLearningSystem.Presentation.Controllers
             }
         }
 
+        [HttpPost("refresh-token")]
+        public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenDto request)
+        {
+            string? token = HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
+
+            if (string.IsNullOrEmpty(token))
+                return StatusCode(StatusCodes.Status428PreconditionRequired, new ResponseDto(new List<string> { "Token is missing or invalid" }));
+
+            string? userId = await _service.AuthenticationService.GetUserIdFromExpiredToken(token);
+
+            if (userId is null)
+                return StatusCode(StatusCodes.Status500InternalServerError, new ResponseDto(["Cannot get user id"]));
+
+            if (await _service.AuthenticationService.IsRefreshTokenValid(userId, request.RefreshToken))
+            {
+                var tokenDto = await _service.AuthenticationService.CreateToken(populateExp: false);
+
+                return Ok(new ResponseDto(["Refresh token successfully!"], tokenDto));
+            }
+            else
+            {
+                return new BadRequestObjectResult(new ResponseDto(["Invalid refresh token"]));
+            }
+            
+        }
     }
 }

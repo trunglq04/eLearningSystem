@@ -135,7 +135,7 @@ namespace eLearningSystem.API.Migrations
                     b.Property<string>("RefreshToken")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("RefreshTokenExpirationTime")
+                    b.Property<DateTime?>("RefreshTokenExpiry")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("SecurityStamp")
@@ -165,15 +165,15 @@ namespace eLearningSystem.API.Migrations
                         {
                             Id = new Guid("c9d4c053-49b6-410c-bc78-2d54a9991870"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "28ab92e9-8678-4e28-b857-fc4cbf6039b6",
+                            ConcurrencyStamp = "2ca9c12a-450c-47c3-9fb4-fe51c379863e",
                             Email = "admin@elearning.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ELEARNING.COM",
                             NormalizedUserName = "admin@elearning.com",
-                            PasswordHash = "AQAAAAIAAYagAAAAEHB4AStanpqHMlyS+MWJrCe//VZOUNTNS2q3WKGVN1sqKVgqM6aHUnfGhNVWc+RwqQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAELKyxwEpsqmnGlBZogxFCgRGIKOsoy4jCkEUCVs5HCIH4HAnv3hCle2veqOwJFNQPg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "a5e2a87a-cbd8-4bea-a704-f4732f6e4284",
+                            SecurityStamp = "0e6396d5-7575-4ed8-894a-ea9da63cb9f4",
                             TwoFactorEnabled = false,
                             UserName = "admin@elearning.com"
                         });
