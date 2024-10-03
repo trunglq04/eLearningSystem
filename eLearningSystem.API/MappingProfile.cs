@@ -15,7 +15,7 @@ namespace eLearningSystem.API
             .ForMember(c => c.Gender,
                 opt => opt.MapFrom(x => x.Gender.HasValue ? (x.Gender.Value ? "Male" : "Female") : "None"))
             .ForMember(c => c.Image,
-                opt => opt.MapFrom(x => x.Image ?? "None"))
+                opt => opt.MapFrom(x => x.Image ?? "https://res.cloudinary.com/dsr7vgs00/image/upload/v1727861456/samples/man-portrait.jpg"))
             .ForMember(c => c.PhoneNumber,
                 opt => opt.MapFrom(x => x.PhoneNumber ?? "None"))
             .ForMember(c => c.FullName,
