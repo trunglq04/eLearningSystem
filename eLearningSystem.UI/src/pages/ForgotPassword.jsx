@@ -2,8 +2,10 @@ import React from "react";
 import banner from "../assets/banner.jpg";
 import InputEmail from "../components/InputEmail";
 import { motion as m } from "framer-motion";
+import { useDocumentTitle } from "@uidotdev/usehooks";
 
 export default function ForgotPassword() {
+  useDocumentTitle("E-Learning | Forgot password");
   return (
     <>
       <div className="h-screen w-screen grid grid-cols-2">

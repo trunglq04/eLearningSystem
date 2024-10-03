@@ -6,6 +6,7 @@ import banner from "../assets/banner.jpg";
 import { login } from "../utils/APIServices";
 import toast, { Toaster } from "react-hot-toast";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { useDocumentTitle } from "@uidotdev/usehooks";
 
 export default function Login() {
   const nav = useNavigate();
@@ -17,6 +18,8 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
 
   const emailRegex = /^[\w.-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/;
+
+  useDocumentTitle("E-Learning | Sign-in");
 
   const handleSubmit = async (e) => {
     e.preventDefault();

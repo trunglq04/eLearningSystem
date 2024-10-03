@@ -5,8 +5,10 @@ import banner from "../assets/banner.jpg";
 import { motion as m } from "framer-motion";
 import { registerLearner } from "../utils/APIServices";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { useDocumentTitle } from "@uidotdev/usehooks";
 
 export default function Register() {
+  useDocumentTitle("E-Learning | Sign-up");
   const navigate = useNavigate();
   const [registerUser, setRegisterUser] = useState({
     email: "",
