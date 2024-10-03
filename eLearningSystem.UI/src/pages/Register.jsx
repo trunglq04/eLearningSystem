@@ -47,6 +47,9 @@ export default function Register() {
         setLoading(true);
         const response = await registerLearner(registerUser);
         toast.success(response.message[0]);
+        setTimeout(() => {
+          navigate("/login");
+        }, 1000);
         setLoading(false);
         setRegisterUser({ email: "", password: "", confirmPassword: "" });
       } catch (error) {

@@ -1,33 +1,49 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import carouselBanner1 from "../assets/carouselBanner1.jpg";
 import carouselBanner2 from "../assets/carouselBanner2.png";
 import carouselBanner3 from "../assets/carouselBanner3.jpg";
 
 const Carousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [fade, setFade] = useState(true);
+
+  const images = [carouselBanner1, carouselBanner2, carouselBanner3];
 
   const handlePrevious = () => {
-    const isFirstSlide = currentIndex === 0;
-    const newIndex = isFirstSlide ? images.length - 1 : currentIndex - 1;
-    setCurrentIndex(newIndex);
+    setFade(false);
+    setTimeout(() => {
+      const isFirstSlide = currentIndex === 0;
+      const newIndex = isFirstSlide ? images.length - 1 : currentIndex - 1;
+      setCurrentIndex(newIndex);
+      setFade(true);
+    }, 300);
   };
 
   const handleNext = () => {
-    const isLastSlide = currentIndex === images.length - 1;
-    const newIndex = isLastSlide ? 0 : currentIndex + 1;
-    setCurrentIndex(newIndex);
+    setFade(false);
+    setTimeout(() => {
+      const isLastSlide = currentIndex === images.length - 1;
+      const newIndex = isLastSlide ? 0 : currentIndex + 1;
+      setCurrentIndex(newIndex);
+      setFade(true);
+    }, 300);
   };
 
-  const images = [carouselBanner1, carouselBanner2, carouselBanner3];
+  useEffect(() => {
+    const autoSlide = setInterval(handleNext, 5000);
+    return () => clearInterval(autoSlide);
+  }, [currentIndex]);
 
   return (
     <div className="relative w-full mx-auto">
       {/* Images */}
-      <div className="w-full h-4/5 bg-gray-300 overflow-hidden">
+      <div className="w-full h-4/5 bg-gray-300 overflow-hidden ">
         <img
           src={images[currentIndex]}
           alt={`Slide ${currentIndex + 1}`}
-          className="w-full h-full object-fill"
+          className={`w-full h-full object-fill transition-opacity duration-500 ease-in-out ${
+            fade ? "opacity-100" : "opacity-0"
+          }`}
         />
       </div>
 

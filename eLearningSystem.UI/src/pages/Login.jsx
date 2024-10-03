@@ -56,7 +56,7 @@ export default function Login() {
         );
         toast.success(data.message[0]);
         setTimeout(() => {
-          window.location.href = "/";
+          nav("/");
           setLoading(false);
         }, 1000);
       } catch (err) {
