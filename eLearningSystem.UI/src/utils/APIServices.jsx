@@ -85,9 +85,9 @@ export const addTutor = async (data) => {
   );
 };
 
-export const getActors = async (role) => {
+export const getActors = async (role, page) => {
   return client.get(
-    `/user/get?role=${role}`,
+    `/user/get?role=${role}&pageNumber=${page}&pageSize=4`,
 
     { headers: getHeader() }
   );

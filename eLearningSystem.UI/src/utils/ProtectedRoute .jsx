@@ -11,7 +11,8 @@ const isAuthenticated = () => {
 };
 
 export default function ProtectedRoute() {
-  if (!isAuthenticated) {
+  console.log(isAuthenticated());
+  if (!isAuthenticated()) {
     return <Navigate to="/login" replace />;
   }
 

@@ -12,14 +12,14 @@ export default function Sidebar() {
   const hanldeSignOut = () => {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
-    nav("/");
+    nav("/login");
   };
 
   return (
     <>
       {/* Sidebar */}
       <div
-        className={`w-64 bg-gray-800 text-white transition-all duration-300 h-full`}
+        className={`w-64 bg-gray-800 text-white transition-all duration-300 h-full bottom-0`}
       >
         <div className="flex items-center justify-between px-4 py-3">
           <label className={`block text-lg font-semibold text-gray-200`}>
@@ -29,22 +29,7 @@ export default function Sidebar() {
         </div>
         <ul className="mt-6">
           <li className="px-4 py-2 hover:bg-gray-700 cursor-pointer">
-            <a onClick={() => nav("/admin")}>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="size-6"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"
-                />
-              </svg>
-            </a>
+            <a onClick={() => nav("/admin")}>Home</a>
           </li>
           <li className="px-4 py-2 hover:bg-gray-700 cursor-pointer">
             <a>Dashboard</a>
@@ -87,7 +72,7 @@ export default function Sidebar() {
             <a>User</a>
           </li>
         </ul>
-        <div className="flex items-center justify-between px-4 py-3 bottom-0">
+        <div className="flex justify-center px-4 py-3 mt-auto">
           <button
             className="px-4 py-1 bg-rose-800 border rounded-md"
             onClick={hanldeSignOut}
