@@ -41,7 +41,7 @@ namespace eLearningSystem.Presentation.Controllers
         }
 
         [HttpGet("{id}", Name = "GetUserById")]
-        [Authorize(Roles ="Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetUserById(string id)
         {
 
@@ -93,12 +93,12 @@ namespace eLearningSystem.Presentation.Controllers
         }
 
         [HttpPost("register")]
-        [Authorize(Roles ="Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateTutorAsync([FromBody] RegisterRequestDto registerUserDto)
         {
             if (string.IsNullOrEmpty(registerUserDto.UserName))
                 return BadRequest(new ResponseDto(["Invalid input"]));
-            var (result,pwd) = await _service.AuthenticationService.CreateUser(registerUserDto, "Tutor");
+            var (result, pwd) = await _service.AuthenticationService.CreateUser(registerUserDto, "Tutor");
             if (result.Succeeded)
             {
                 await _service.AuthenticationService.SendConfirmEmail(registerUserDto.UserName, role: "Tutor", pwd);
@@ -109,7 +109,19 @@ namespace eLearningSystem.Presentation.Controllers
                 List<string> error = result.Errors.Select(c => c.Description).ToList();
                 return BadRequest(new ResponseDto(error));
             }
-            
+
+        }
+
+        [HttpGet("get")]
+        [Authorize]
+        public async Task<IActionResult> GetAllByRole([FromQuery] string role, [FromBody] PagingRequestDto request)
+        {
+            if (string.IsNullOrEmpty(role) || role.ToLower() == "Admin".ToLower())
+                return BadRequest(new ResponseDto(["Invalid input"]));
+            var result = await _service.UserService.GetAllAsync(role, request);
+                return Ok(new ResponseDto([$"Get all {role}  successfully!"], result));
+           
+
         }
     }
 }
