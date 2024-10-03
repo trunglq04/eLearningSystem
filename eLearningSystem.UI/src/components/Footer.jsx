@@ -2,7 +2,7 @@ import React from "react";
 
 export default function Footer() {
   return (
-    <footer className="bg-indigo-900 text-gray-400 py-12">
+    <footer className="bg-white border-t-2 text-black py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between">
           <div>
@@ -35,7 +35,7 @@ export default function Footer() {
           </div>
           <div className="grid grid-cols-5 gap-8">
             <div>
-              <h3 className="text-white font-semibold mb-4">Solutions</h3>
+              <h3 className="text-black font-semibold mb-4">Solutions</h3>
               <ul>
                 <li>
                   <a href="#" className="hover:text-gray-300">
@@ -60,7 +60,7 @@ export default function Footer() {
               </ul>
             </div>
             <div>
-              <h3 className="text-white font-semibold mb-4">Support</h3>
+              <h3 className="text-black font-semibold mb-4">Support</h3>
               <ul>
                 <li>
                   <a href="#" className="hover:text-gray-300">
@@ -85,7 +85,7 @@ export default function Footer() {
               </ul>
             </div>
             <div>
-              <h3 className="text-white font-semibold mb-4">Company</h3>
+              <h3 className="text-black font-semibold mb-4">Company</h3>
               <ul>
                 <li>
                   <a href="#" className="hover:text-gray-300">
@@ -115,7 +115,7 @@ export default function Footer() {
               </ul>
             </div>
             <div>
-              <h3 className="text-white font-semibold mb-4">Legal</h3>
+              <h3 className="text-black font-semibold mb-4">Legal</h3>
               <ul>
                 <li>
                   <a href="#" className="hover:text-gray-300">

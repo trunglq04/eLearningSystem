@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
+import { getUser, updateAvatar, updateProfile } from "../utils/APIServices";
 import ChangePassword from "./ChangePassword";
-import { getUser, updateProfile } from "../utils/APIServices";
-import toast, { Toaster } from "react-hot-toast";
 
 export default function Profile() {
   const [userInfo, setUserInfo] = useState({
@@ -21,8 +21,9 @@ export default function Profile() {
     gender: "",
   });
 
-  const [avatar, setAvatar] = useState(null);
+  const [avatar, setAvatar] = useState(null); // Holds the selected avatar or URL
 
+  const [file, setFile] = useState(null); // Holds the file object
   const [isNewAvatar, setIsNewAvatar] = useState(false);
 
   const [isUpdate, setIsUpdate] = useState(false);
@@ -76,18 +77,26 @@ export default function Profile() {
   };
 
   const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setAvatar(reader.result);
-        setIsNewAvatar(true);
-      };
-      reader.readAsDataURL(file);
+    const selectedFile = e.target.files[0]; // Get the selected file
+    if (selectedFile) {
+      setAvatar(URL.createObjectURL(selectedFile)); // Display the avatar preview
+      setFile(selectedFile); // Save the file
+      setIsNewAvatar(true); // Show the "Save" button
     }
   };
 
-  const handleSave = () => {
+  const handleSave = async (e) => {
+    e.preventDefault();
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      const response = await updateAvatar(formData);
+      if (response) {
+        toast.success(response.message[0]);
+      }
+    } catch (error) {
+      console.log(error);
+    }
     setIsNewAvatar(false);
   };
 
@@ -161,8 +170,8 @@ export default function Profile() {
         const response = await updateProfile(userInfo);
         if (response) {
           setIsUpdate(false);
-          // toast.success(response.message[0]);
-          toast.success("Profile updated successfully");
+          toast.success(response.message[0]);
+          // toast.success("Profile updated successfully");
         }
       } catch (error) {
         console.log(error);
@@ -205,7 +214,6 @@ export default function Profile() {
               </div>
               <input
                 type="file"
-                accept="image/*"
                 onChange={handleFileChange}
                 className="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
               />

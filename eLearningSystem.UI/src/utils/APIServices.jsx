@@ -67,3 +67,12 @@ export const updateProfile = async (data) => {
     { headers: getHeader() }
   );
 };
+
+export const updateAvatar = async (formData) => {
+  return client.post("/user/upload-avatar", formData, {
+    headers: {
+      ...getHeader(),
+      "Content-Type": "multipart/form-data",
+    },
+  });
+};
