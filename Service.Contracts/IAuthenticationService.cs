@@ -10,8 +10,8 @@ namespace Service.Contracts
         Task<bool> IsUserEmailExist(ForgotPasswordRequestDto request);
         Task<TokenDto?> CreateToken(bool populateExp);
 
-        Task<IdentityResult> CreateUser(RegisterRequestDto registerUserDto, string role);
+        Task<(IdentityResult, string)> CreateUser(RegisterRequestDto registerUserDto, string role);
         Task<IdentityResult> ConfirmEmail(string email, string token);
-        Task SendConfirmEmail(string email);
+        Task SendConfirmEmail(string email, string? role = "Learner", string? password = default);
     }
 }

@@ -5,13 +5,13 @@ namespace Shared.DataTransferObjects
 {
     public record RegisterRequestDto
     {
-        [EmailAddress(ErrorMessage = "Please enter a valid email address.")]
+        [Required]
         public string UserName { get; init; }
 
-        [Required(ErrorMessage = "Password is required.")]
-        public string Password { get; init; }
+        public string? FullName { get; init; }
 
-        [Compare("Password", ErrorMessage = "Passwords do not match.")]
-        public string ConfirmPassword { get; init; }
+        public string? Password { get; init; }
+
+        public string? ConfirmPassword { get; init; }
     }   
 }

@@ -3,6 +3,6 @@
     public interface IEmailService
     {
         Task SendPasswordResetEmailAsync(string userEmail, string userName, string token);
-        Task SendConfirmEmailAsync(string userEmail, string token);
+        Task SendConfirmEmailAsync(string userEmail, string token, string role, string? password = default);
     }
 }

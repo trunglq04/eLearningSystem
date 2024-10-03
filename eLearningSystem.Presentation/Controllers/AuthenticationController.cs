@@ -20,7 +20,12 @@ namespace eLearningSystem.Presentation.Controllers
         public async Task<IActionResult> Register([FromBody] RegisterRequestDto registerUserDto)
         {
 
-            IdentityResult result = await _service.AuthenticationService.CreateUser(registerUserDto, "Learner");
+            if (string.IsNullOrEmpty(registerUserDto.Password) || string.IsNullOrEmpty(registerUserDto.ConfirmPassword))
+                return BadRequest(new ResponseDto(["Password and confirm password are required."]));
+            if(registerUserDto.Password != registerUserDto.ConfirmPassword)
+                return BadRequest(new ResponseDto(["Password and confirm password not match."]));
+
+            var (result,pwd) = await _service.AuthenticationService.CreateUser(registerUserDto, "Learner");
 
             if (result.Succeeded)
             {

@@ -1,5 +1,4 @@
 ﻿using Entities.Models;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -120,19 +119,29 @@ namespace Service
             }
         }
 
-        public async Task<IdentityResult> CreateUser(RegisterRequestDto registerUserDto, string role)
+        public async Task<(IdentityResult, string)> CreateUser(RegisterRequestDto registerUserDto, string role)
         {
             var user = new ApplicationUser
             {
                 UserName = registerUserDto.UserName?.Trim(),
                 Email = registerUserDto.UserName?.Trim()
             };
-            var identityResult = await _userManager.CreateAsync(user, registerUserDto.Password);
-
-            if (!identityResult.Succeeded) return identityResult;
+            string pwd = registerUserDto.Password!;
+            if(role != "Learner")
+            {
+               string[] custom = registerUserDto.FullName.Trim().Split(' ');
+                foreach(string s in custom)
+                {
+                    pwd += s.Substring(0,1).ToLower();
+                }
+                pwd = $"{pwd.Trim()}@E{ new Random().Next() }";
+                user.FullName = registerUserDto.FullName;
+            }
+            var identityResult = await _userManager.CreateAsync(user, pwd);
+            if (!identityResult.Succeeded) return (identityResult,pwd);
 
             identityResult = await _userManager.AddToRoleAsync(user,  role);
-            return identityResult;
+            return (identityResult, pwd);
         }
 
         public async Task<IdentityResult> ConfirmEmail(string email, string token)
@@ -146,11 +155,11 @@ namespace Service
             return identityResult;
         }
 
-        public async Task SendConfirmEmail(string email)
+        public async Task SendConfirmEmail(string email, string? role = "Learner", string? password = default)
         {
             var user = await _userManager.FindByEmailAsync(email);
             string token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-            await _emailService.SendConfirmEmailAsync(email, token);
+            await _emailService.SendConfirmEmailAsync(email, token, role, password);
         }
     }
 }
