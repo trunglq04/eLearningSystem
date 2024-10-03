@@ -73,5 +73,40 @@ namespace Service
                 return new BadRequestObjectResult(new ResponseDto([e.Message]));
             }
         }
+
+        public async Task<List<UserRequestDto>> GetAllAsync(string role, PagingRequestDto requestDto)
+        {
+            // Query
+            var listUser = await _userManager.GetUsersInRoleAsync(role);
+            
+            // Filtering
+            if (!string.IsNullOrWhiteSpace(requestDto.Query))
+            {
+                listUser = listUser.Where(x => x.FullName.Trim().Contains( requestDto.Query.Trim())).ToList();
+            }
+
+            // Sorting
+            if (!string.IsNullOrWhiteSpace(requestDto.SortBy) && !string.IsNullOrWhiteSpace(requestDto.SortDirection))
+            {
+                if (string.Equals(requestDto.SortBy, "FullName", StringComparison.OrdinalIgnoreCase))
+                {
+                    var isAsc = string.Equals(requestDto.SortDirection.Trim(), "asc", StringComparison.OrdinalIgnoreCase)
+                        ? true : false;
+
+                    listUser = isAsc ? listUser.OrderBy(x => x.FullName.Trim()).ToList() : listUser.OrderByDescending(x => x.FullName.Trim()).ToList();
+                }
+                
+            }
+
+            // Pagination
+            // PageNumber 1 page size 5 - skip 0, take 5
+            // PageNumber 2 page size 5 - skip 5, take 5
+            // PageNumber 3 page size 5 - skip 10, take 5
+            var skipResults = (requestDto.PageNumber - 1) * requestDto.PageSize;
+            listUser = listUser.Skip(skipResults ?? 0).Take(requestDto.PageSize ?? 100).ToList();
+
+            var listUserReturn = _mapper.Map<List<UserRequestDto>>(listUser);
+            return listUserReturn;
+        }
     }
 }
