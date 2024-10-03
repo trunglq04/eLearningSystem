@@ -98,7 +98,7 @@ namespace eLearningSystem.Presentation.Controllers
         }
 
         [HttpGet("get")]
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetAllByRole(
             [FromQuery] string role,
             [FromQuery] string? query,
@@ -112,14 +112,14 @@ namespace eLearningSystem.Presentation.Controllers
                 Query = query,
                 SortBy = sortBy,
                 SortDirection = sortDirection,
-                PageNumber = pageNumber,
-                PageSize = pageSize
+                PageNumber = pageNumber ?? 1,
+                PageSize = pageSize ?? 100
             };
 
             if (string.IsNullOrEmpty(role) || role.ToLower() == "Admin".ToLower())
                 return BadRequest(new ResponseDto(["Invalid input"]));
-            var result = await _service.UserService.GetAllAsync(role, request);
-                return Ok(new ResponseDto([$"Get all {role}  successfully!"], result));
+            var (result,totalPage) = await _service.UserService.GetAllAsync(role, request);
+                return Ok(new ResponseDto([$"Get all {role}  successfully!"], new { Users = result, TotalPage = totalPage }));
            
 
         }

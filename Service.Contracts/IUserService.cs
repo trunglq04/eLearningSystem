@@ -11,6 +11,6 @@ namespace Service.Contracts
         public Task<UserRequestDto> GetUser(string id);
         public Task<(UserRequestDto, IdentityResult)> UpdateUser(UserRequestDto request, string id);
         public Task<IActionResult> UploadAvatarAsync(string userId, IFormFile file);
-        public Task<List<UserRequestDto>> GetAllAsync(string role, PagingRequestDto requestDto);
+        public Task<(List<UserRequestDto>,int?)> GetAllAsync(string role, PagingRequestDto requestDto);
     }
 }

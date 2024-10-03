@@ -74,11 +74,11 @@ namespace Service
             }
         }
 
-        public async Task<List<UserRequestDto>> GetAllAsync(string role, PagingRequestDto requestDto)
+        public async Task<(List<UserRequestDto>,int?)> GetAllAsync(string role, PagingRequestDto requestDto)
         {
             // Query
             var listUser = await _userManager.GetUsersInRoleAsync(role);
-            
+            int totalElement = listUser.Count();
             // Filtering
             if (!string.IsNullOrWhiteSpace(requestDto.Query))
             {
@@ -104,9 +104,9 @@ namespace Service
             // PageNumber 3 page size 5 - skip 10, take 5
             var skipResults = (requestDto.PageNumber - 1) * requestDto.PageSize;
             listUser = listUser.Skip(skipResults ?? 0).Take(requestDto.PageSize ?? 100).ToList();
-
+            var totalPage = totalElement/requestDto.PageSize;
             var listUserReturn = _mapper.Map<List<UserRequestDto>>(listUser);
-            return listUserReturn;
+            return (listUserReturn, totalPage);
         }
     }
 }
