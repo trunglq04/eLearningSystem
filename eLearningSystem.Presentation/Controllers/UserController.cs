@@ -114,8 +114,22 @@ namespace eLearningSystem.Presentation.Controllers
 
         [HttpGet("get")]
         [Authorize]
-        public async Task<IActionResult> GetAllByRole([FromQuery] string role, [FromBody] PagingRequestDto request)
+        public async Task<IActionResult> GetAllByRole(
+            [FromQuery] string role,
+            [FromQuery] string? query,
+            [FromQuery] string? sortBy,
+            [FromQuery] string? sortDirection,
+            [FromQuery] int? pageNumber,
+            [FromQuery] int? pageSize)
         {
+            PagingRequestDto request = new()
+            {
+                Query = query,
+                SortBy = sortBy,
+                SortDirection = sortDirection,
+                PageNumber = pageNumber,
+                PageSize = pageSize
+            };
             if (string.IsNullOrEmpty(role) || role.ToLower() == "Admin".ToLower())
                 return BadRequest(new ResponseDto(["Invalid input"]));
             var result = await _service.UserService.GetAllAsync(role, request);
