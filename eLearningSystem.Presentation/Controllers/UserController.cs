@@ -130,6 +130,7 @@ namespace eLearningSystem.Presentation.Controllers
                 PageNumber = pageNumber,
                 PageSize = pageSize
             };
+
             if (string.IsNullOrEmpty(role) || role.ToLower() == "Admin".ToLower())
                 return BadRequest(new ResponseDto(["Invalid input"]));
             var result = await _service.UserService.GetAllAsync(role, request);
