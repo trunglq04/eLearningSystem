@@ -10,6 +10,8 @@ import VerifyEmail from "./pages/VerifyEmail";
 import ConfirmEmailSuccess from "./pages/Verify/ConfirmEmailSuccess";
 import ConfirmEmailFailed from "./pages/Verify/ConfirmEmailFailed";
 import ProtectedRoute from "./utils/ProtectedRoute ";
+import AdminLayout from "./pages/Admin/Layout/AdminLayout";
+import ManagerTutor from "./pages/Admin/Pages/ManagerTutor";
 
 const router = createBrowserRouter([
   {
@@ -51,6 +53,16 @@ const router = createBrowserRouter([
       {
         path: "/my-profile",
         element: <Profile />,
+      },
+      {
+        path: "/admin",
+        element: <AdminLayout />,
+        children: [
+          {
+            path: "manage-tutor",
+            element: <ManagerTutor />,
+          },
+        ],
       },
     ],
   },
