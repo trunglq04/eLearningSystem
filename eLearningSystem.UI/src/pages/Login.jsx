@@ -6,6 +6,7 @@ import banner from "../assets/banner.jpg";
 import { login } from "../utils/APIServices";
 import toast, { Toaster } from "react-hot-toast";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { jwtDecode } from "jwt-decode";
 
 export default function Login() {
   const nav = useNavigate();
@@ -55,8 +56,15 @@ export default function Login() {
           JSON.stringify(data.data.refreshToken)
         );
         toast.success(data.message[0]);
+
+        const user = JSON.parse(localStorage.getItem("accessToken"));
+        const decodedToken = jwtDecode(user);
         setTimeout(() => {
-          nav("/");
+          if (decodedToken.role === "Admin") {
+            nav("/admin");
+          } else {
+            nav("/");
+          }
           setLoading(false);
         }, 1000);
       } catch (err) {

@@ -76,3 +76,19 @@ export const updateAvatar = async (formData) => {
     },
   });
 };
+
+export const addTutor = async (data) => {
+  return client.post(
+    "/user/register",
+    { UserName: data.email, FullName: data.fullname },
+    { headers: getHeader() }
+  );
+};
+
+export const getActors = async (role) => {
+  return client.get(
+    `/user/get?role=${role}`,
+
+    { headers: getHeader() }
+  );
+};

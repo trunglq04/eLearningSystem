@@ -1,8 +1,14 @@
 import React from "react";
 import Sidebar from "./Sidebar";
-import { Outlet } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 
 export default function AdminLayout() {
+  const user = JSON.parse(localStorage.getItem("accessToken"));
+  const decodedToken = jwtDecode(user);
+  if (decodedToken.role !== "Admin") {
+    return <Navigate to="/" />;
+  }
   return (
     <div className="flex">
       <div className="flex-col h-screen">

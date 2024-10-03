@@ -9,6 +9,12 @@ export default function Sidebar() {
     setIsProductDropdownOpen(!isProductDropdownOpen);
   };
 
+  const hanldeSignOut = () => {
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+    nav("/");
+  };
+
   return (
     <>
       {/* Sidebar */}
@@ -71,12 +77,7 @@ export default function Sidebar() {
             {isProductDropdownOpen && (
               <ul className="ml-4 mt-2">
                 <li className="px-4 py-2 hover:bg-gray-700 cursor-pointer">
-                  <a onClick={() => nav("/admin/product/add")}>Add Tutor</a>
-                </li>
-                <li className="px-4 py-2 hover:bg-gray-700 cursor-pointer">
-                  <a onClick={() => nav("/admin/manage-tutor")}>
-                    Manage Products
-                  </a>
+                  <a onClick={() => nav("/admin/manage-tutor")}>Manage Tutor</a>
                 </li>
               </ul>
             )}
@@ -86,7 +87,14 @@ export default function Sidebar() {
             <a>User</a>
           </li>
         </ul>
-        <div className="flex items-center justify-between px-4 py-3"></div>
+        <div className="flex items-center justify-between px-4 py-3 bottom-0">
+          <button
+            className="px-4 py-1 bg-rose-800 border rounded-md"
+            onClick={hanldeSignOut}
+          >
+            Logout
+          </button>
+        </div>
       </div>
     </>
   );
